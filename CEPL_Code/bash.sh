@@ -1,0 +1,23 @@
+bash scripts/efficient_prompts/xd_train.sh  stanford_cars 50 1 
+bash scripts/efficient_prompts/xd_train.sh  caltech101 20 1 
+bash scripts/efficient_prompts/xd_train.sh  oxford_pets 20 1 
+bash scripts/efficient_prompts/xd_train.sh  oxford_flowers 50 1 
+bash scripts/efficient_prompts/xd_train.sh  food101 15 1 
+bash scripts/efficient_prompts/xd_train.sh  fgvc_aircraft 50 1 
+bash scripts/efficient_prompts/xd_train.sh  sun397 30 1 
+bash scripts/efficient_prompts/xd_train.sh  dtd 30 1
+bash scripts/efficient_prompts/xd_train.sh  eurosat 100 1 
+bash scripts/efficient_prompts/xd_train.sh  ucf101 50 1
+bash scripts/efficient_prompts/xd_train.sh  imagenet 20 1
+
+bash scripts/efficient_prompts/xd_test.sh  stanford_cars 50 1 
+bash scripts/efficient_prompts/xd_test.sh  caltech101 20 1 
+bash scripts/efficient_prompts/xd_test.sh  oxford_pets 20 1 
+bash scripts/efficient_prompts/xd_test.sh  oxford_flowers 50 1 
+bash scripts/efficient_prompts/xd_test.sh  food101 15 1 
+bash scripts/efficient_prompts/xd_test.sh  fgvc_aircraft 50 1 
+bash scripts/efficient_prompts/xd_test.sh  sun397 30 1 
+bash scripts/efficient_prompts/xd_test.sh  dtd 30 1
+bash scripts/efficient_prompts/xd_test.sh  eurosat 100 1 
+bash scripts/efficient_prompts/xd_test.sh  ucf101 50 1
+bash scripts/efficient_prompts/xd_test.sh  imagenet 20 1
