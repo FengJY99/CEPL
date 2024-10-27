@@ -1,0 +1,577 @@
+***************
+** Arguments **
+***************
+backbone: 
+config_file: configs/trainers/EFF_Prompts/vit_b16_cepl.yaml
+dataset_config_file: configs/datasets/caltech101.yaml
+eval_only: False
+head: 
+load_epoch: None
+model_dir: 
+no_train: False
+opts: ['DATASET.NUM_SHOTS', '16', 'TRAINER.EFF_PROMPTS.N_CTX', '32', 'TRAINER.EFF_PROMPTS.CL', 'EFF_Prompts', 'TRAINER.EFF_PROMPTS.PREC', 'fp32', 'OPTIM.MAX_EPOCH', '20']
+output_dir: /caltech101/vit_b16_cepl_16shots/seed2
+resume: 
+root: 
+seed: 2
+source_domains: None
+target_domains: None
+trainer: EFF_Prompts_4
+transforms: None
+************
+** Config **
+************
+DATALOADER:
+  K_TRANSFORMS: 1
+  NUM_WORKERS: 8
+  RETURN_IMG0: False
+  TEST:
+    BATCH_SIZE: 1
+    SAMPLER: SequentialSampler
+  TRAIN_U:
+    BATCH_SIZE: 32
+    N_DOMAIN: 0
+    N_INS: 16
+    SAME_AS_X: True
+    SAMPLER: RandomSampler
+  TRAIN_X:
+    BATCH_SIZE: 1
+    N_DOMAIN: 0
+    N_INS: 16
+    SAMPLER: RandomSampler
+DATASET:
+  ALL_AS_UNLABELED: False
+  CIFAR_C_LEVEL: 1
+  CIFAR_C_TYPE: 
+  NAME: Caltech101
+  NUM_LABELED: -1
+  NUM_SHOTS: 16
+  ROOT: 
+  SOURCE_DOMAINS: ()
+  STL10_FOLD: -1
+  SUBSAMPLE_CLASSES: all
+  TARGET_DOMAINS: ()
+  VAL_PERCENT: 0.1
+INPUT:
+  COLORJITTER_B: 0.4
+  COLORJITTER_C: 0.4
+  COLORJITTER_H: 0.1
+  COLORJITTER_S: 0.4
+  CROP_PADDING: 4
+  CUTOUT_LEN: 16
+  CUTOUT_N: 1
+  GB_K: 21
+  GB_P: 0.5
+  GN_MEAN: 0.0
+  GN_STD: 0.15
+  INTERPOLATION: bicubic
+  NO_TRANSFORM: False
+  PIXEL_MEAN: [0.48145466, 0.4578275, 0.40821073]
+  PIXEL_STD: [0.26862954, 0.26130258, 0.27577711]
+  RANDAUGMENT_M: 10
+  RANDAUGMENT_N: 2
+  RGS_P: 0.2
+  RRCROP_SCALE: (0.08, 1.0)
+  SIZE: (224, 224)
+  TRANSFORMS: ('random_resized_crop', 'random_flip', 'normalize')
+MODEL:
+  BACKBONE:
+    NAME: ViT-B/16
+    PRETRAINED: True
+  HEAD:
+    ACTIVATION: relu
+    BN: True
+    DROPOUT: 0.0
+    HIDDEN_LAYERS: ()
+    NAME: 
+  INIT_WEIGHTS: 
+OPTIM:
+  ADAM_BETA1: 0.9
+  ADAM_BETA2: 0.999
+  BASE_LR_MULT: 0.1
+  GAMMA: 0.1
+  LR: 0.002
+  LR_SCHEDULER: cosine
+  MAX_EPOCH: 20
+  MOMENTUM: 0.9
+  NAME: sgd
+  NEW_LAYERS: ()
+  RMSPROP_ALPHA: 0.99
+  SGD_DAMPNING: 0
+  SGD_NESTEROV: False
+  STAGED_LR: False
+  STEPSIZE: (-1,)
+  WARMUP_CONS_LR: 1e-05
+  WARMUP_EPOCH: 1
+  WARMUP_MIN_LR: 1e-05
+  WARMUP_RECOUNT: True
+  WARMUP_TYPE: constant
+  WEIGHT_DECAY: 0.0005
+OUTPUT_DIR: /caltech101/vit_b16_cepl_16shots/seed2
+RESUME: 
+SEED: 2
+TEST:
+  COMPUTE_CMAT: False
+  EVALUATOR: Classification
+  FINAL_MODEL: last_step
+  NO_TEST: False
+  PER_CLASS_RESULT: False
+  SPLIT: test
+TRAIN:
+  CHECKPOINT_FREQ: 0
+  COUNT_ITER: train_x
+  PRINT_FREQ: 100
+TRAINER:
+  CDAC:
+    CLASS_LR_MULTI: 10
+    P_THRESH: 0.95
+    RAMPUP_COEF: 30
+    RAMPUP_ITRS: 1000
+    STRONG_TRANSFORMS: ()
+    TOPK_MATCH: 5
+  CEPL:
+    ALPHA: 1.0
+    CL: EFF_Prompts
+    CTX_INIT: 
+    N_CTX: 32
+    PREC: fp32
+    w1: 1.0
+    w2: 8.0
+  COCOOP:
+    CTX_INIT: a photo of a
+    N_CTX: 4
+    PREC: fp16
+  COOP:
+    CLASS_TOKEN_POSITION: end
+    CSC: False
+    CTX_INIT: 
+    N_CTX: 16
+    PREC: fp16
+  CROSSGRAD:
+    ALPHA_D: 0.5
+    ALPHA_F: 0.5
+    EPS_D: 1.0
+    EPS_F: 1.0
+  DAEL:
+    CONF_THRE: 0.95
+    STRONG_TRANSFORMS: ()
+    WEIGHT_U: 0.5
+  DAELDG:
+    CONF_THRE: 0.95
+    STRONG_TRANSFORMS: ()
+    WEIGHT_U: 0.5
+  DDAIG:
+    ALPHA: 0.5
+    CLAMP: False
+    CLAMP_MAX: 1.0
+    CLAMP_MIN: -1.0
+    G_ARCH: 
+    LMDA: 0.3
+    WARMUP: 0
+  DOMAINMIX:
+    ALPHA: 1.0
+    BETA: 1.0
+    TYPE: crossdomain
+  EFF_PROMPTS:
+    ALPHA: 1.0
+    CL: EFF_Prompts
+    CTX_INIT: 
+    N_CTX: 32
+    PREC: fp32
+    w1: 1.0
+    w2: 8.0
+  ENTMIN:
+    LMDA: 0.001
+  FIXMATCH:
+    CONF_THRE: 0.95
+    STRONG_TRANSFORMS: ()
+    WEIGHT_U: 1.0
+  M3SDA:
+    LMDA: 0.5
+    N_STEP_F: 4
+  MCD:
+    N_STEP_F: 4
+  MEANTEACHER:
+    EMA_ALPHA: 0.999
+    RAMPUP: 5
+    WEIGHT_U: 1.0
+  MIXMATCH:
+    MIXUP_BETA: 0.75
+    RAMPUP: 20000
+    TEMP: 2.0
+    WEIGHT_U: 100.0
+  MME:
+    LMDA: 0.1
+  NAME: EFF_Prompts_4
+  SE:
+    CONF_THRE: 0.95
+    EMA_ALPHA: 0.999
+    RAMPUP: 300
+USE_CUDA: True
+VERBOSE: True
+VERSION: 1
+Loading trainer: EFF_Prompts_4
+Loading dataset: Caltech101
+Reading split from /caltech-101/split_zhou_Caltech101.json
+Loading preprocessed few-shot data from /caltech-101/split_fewshot/shot_16-seed_2.pkl
+Building transform_train
++ random resized crop (size=(224, 224), scale=(0.08, 1.0))
++ random flip
++ to torch tensor of range [0, 1]
++ normalization (mean=[0.48145466, 0.4578275, 0.40821073], std=[0.26862954, 0.26130258, 0.27577711])
+Building transform_test
++ resize the smaller edge to 224
++ 224x224 center crop
++ to torch tensor of range [0, 1]
++ normalization (mean=[0.48145466, 0.4578275, 0.40821073], std=[0.26862954, 0.26130258, 0.27577711])
+---------  ----------
+Dataset    Caltech101
+# classes  100
+# train_x  1,600
+# val      400
+# test     2,465
+---------  ----------
+Loading CLIP (backbone: ViT-B/16)
+Building custom CLIP
+Initial context: "X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X."
+Number of context words (tokens): 32
+Building text dataset per class...
+
+
+Using linear_head: no norm scale, with bias. And lr should be 0.002 -> 1e-5 !
+Turning off gradients in both the image and the text encoder
+Parameters to be updated: {'image_encoder.transformer.resblocks.5.attn.lora_V_B', 'trans_block.atten.attn.out_proj.bias', 'image_encoder.transformer.resblocks.10.attn.lora_out_proj_A', 'image_encoder.transformer.resblocks.6.mlp.c_proj.linear.lora_A', 'image_encoder.transformer.resblocks.10.attn.lora_Q_B', 'image_encoder.transformer.resblocks.8.mlp.c_proj.linear.lora_A', 'image_encoder.transformer.resblocks.10.mlp.c_proj.linear.lora_A', 'image_encoder.transformer.resblocks.9.attn.lora_K_B', 'text_encoder.transformer.resblocks.8.attn.lora_Q_B', 'cls_head.weight', 'text_encoder.transformer.resblocks.6.attn.lora_out_proj_B', 'text_encoder.transformer.resblocks.9.attn.lora_Q_B', 'text_encoder.transformer.resblocks.4.attn.lora_K_B', 'image_encoder.transformer.resblocks.5.attn.lora_V_A', 'image_encoder.transformer.resblocks.6.attn.lora_out_proj_B', 'image_encoder.transformer.resblocks.10.attn.lora_K_B', 'text_encoder.transformer.resblocks.5.mlp.c_fc.linear.lora_B', 'text_encoder.transformer.resblocks.8.attn.lora_V_B', 'trans_block.atten.mlp.c_fc.weight', 'image_encoder.transformer.resblocks.4.mlp.c_proj.linear.lora_A', 'text_encoder.transformer.resblocks.3.mlp.c_proj.linear.lora_A', 'trans_block.atten.attn.in_proj_weight', 'text_encoder.transformer.resblocks.3.mlp.c_fc.linear.lora_A', 'image_encoder.transformer.resblocks.6.attn.lora_K_B', 'text_encoder.transformer.resblocks.10.attn.lora_out_proj_B', 'text_encoder.transformer.resblocks.5.attn.lora_out_proj_B', 'image_encoder.transformer.resblocks.11.attn.lora_V_B', 'text_encoder.transformer.resblocks.7.mlp.c_proj.linear.lora_B', 'text_encoder.transformer.resblocks.11.attn.lora_Q_B', 'image_encoder.transformer.resblocks.5.attn.lora_K_B', 'image_encoder.transformer.resblocks.11.attn.lora_out_proj_A', 'text_encoder.transformer.resblocks.5.attn.lora_K_A', 'text_encoder.transformer.resblocks.7.attn.lora_V_B', 'image_encoder.transformer.resblocks.11.mlp.c_proj.linear.lora_B', 'image_encoder.transformer.resblocks.9.attn.lora_V_B', 'text_encoder.transformer.resblocks.8.mlp.c_fc.linear.lora_A', 'text_encoder.transformer.resblocks.8.attn.lora_out_proj_A', 'text_encoder.transformer.resblocks.11.attn.lora_V_A', 'text_encoder.transformer.resblocks.5.mlp.c_proj.linear.lora_A', 'text_encoder.transformer.resblocks.5.attn.lora_out_proj_A', 'image_encoder.transformer.resblocks.7.attn.lora_V_A', 'text_encoder.transformer.resblocks.4.mlp.c_proj.linear.lora_A', 'text_encoder.transformer.resblocks.3.attn.lora_V_B', 'text_encoder.transformer.resblocks.8.attn.lora_K_B', 'text_encoder.transformer.resblocks.8.mlp.c_fc.linear.lora_B', 'text_encoder.transformer.resblocks.11.attn.lora_out_proj_B', 'trans_block.atten.mlp.c_proj.bias', 'image_encoder.transformer.resblocks.3.attn.lora_K_B', 'trans_block.ln_post.weight', 'text_encoder.transformer.resblocks.5.mlp.c_fc.linear.lora_A', 'image_encoder.transformer.resblocks.8.attn.lora_Q_A', 'text_encoder.transformer.resblocks.3.attn.lora_out_proj_A', 'image_encoder.transformer.resblocks.10.attn.lora_Q_A', 'image_encoder.transformer.resblocks.6.mlp.c_fc.linear.lora_B', 'image_encoder.transformer.resblocks.4.attn.lora_Q_A', 'text_encoder.transformer.resblocks.8.attn.lora_out_proj_B', 'image_encoder.transformer.resblocks.9.attn.lora_V_A', 'trans_block.atten.mlp.c_fc.bias', 'image_encoder.transformer.resblocks.4.attn.lora_out_proj_A', 'text_encoder.transformer.resblocks.9.attn.lora_Q_A', 'text_encoder.transformer.resblocks.3.mlp.c_proj.linear.lora_B', 'text_encoder.transformer.resblocks.4.mlp.c_proj.linear.lora_B', 'text_encoder.transformer.resblocks.10.attn.lora_V_B', 'image_encoder.transformer.resblocks.10.mlp.c_fc.linear.lora_B', 'text_encoder.transformer.resblocks.8.attn.lora_K_A', 'text_encoder.transformer.resblocks.6.attn.lora_K_B', 'trans_block.atten.ln_1.weight', 'image_encoder.transformer.resblocks.9.mlp.c_proj.linear.lora_B', 'text_encoder.transformer.resblocks.10.mlp.c_fc.linear.lora_B', 'image_encoder.transformer.resblocks.3.attn.lora_Q_B', 'image_encoder.transformer.resblocks.9.attn.lora_K_A', 'text_encoder.transformer.resblocks.6.attn.lora_Q_B', 'image_encoder.transformer.resblocks.7.mlp.c_fc.linear.lora_B', 'text_encoder.transformer.resblocks.7.attn.lora_V_A', 'prompt_learner.meta_net.linear1.bias', 'text_encoder.transformer.resblocks.3.attn.lora_Q_B', 'image_encoder.transformer.resblocks.8.attn.lora_K_A', 'text_encoder.transformer.resblocks.4.mlp.c_fc.linear.lora_B', 'image_encoder.transformer.resblocks.3.attn.lora_Q_A', 'text_encoder.transformer.resblocks.10.attn.lora_Q_B', 'text_encoder.transformer.resblocks.6.mlp.c_proj.linear.lora_A', 'image_encoder.transformer.resblocks.9.mlp.c_fc.linear.lora_A', 'image_encoder.transformer.resblocks.11.attn.lora_out_proj_B', 'image_encoder.transformer.resblocks.3.attn.lora_out_proj_B', 'image_encoder.transformer.resblocks.3.mlp.c_proj.linear.lora_A', 'image_encoder.transformer.resblocks.8.attn.lora_K_B', 'text_encoder.transformer.resblocks.3.attn.lora_Q_A', 'image_encoder.transformer.resblocks.7.attn.lora_K_A', 'image_encoder.transformer.resblocks.5.attn.lora_Q_B', 'image_encoder.transformer.resblocks.9.mlp.c_fc.linear.lora_B', 'image_encoder.transformer.resblocks.6.attn.lora_K_A', 'text_encoder.transformer.resblocks.6.attn.lora_V_B', 'image_encoder.transformer.resblocks.3.attn.lora_out_proj_A', 'image_encoder.transformer.resblocks.6.mlp.c_proj.linear.lora_B', 'text_encoder.transformer.resblocks.7.attn.lora_Q_A', 'text_encoder.transformer.resblocks.4.attn.lora_Q_A', 'image_encoder.transformer.resblocks.3.mlp.c_proj.linear.lora_B', 'image_encoder.transformer.resblocks.9.attn.lora_Q_A', 'image_encoder.transformer.resblocks.11.attn.lora_K_A', 'image_encoder.transformer.resblocks.11.attn.lora_K_B', 'image_encoder.transformer.resblocks.4.attn.lora_V_A', 'text_encoder.transformer.resblocks.11.attn.lora_out_proj_A', 'image_encoder.transformer.resblocks.9.attn.lora_out_proj_A', 'text_encoder.transformer.resblocks.3.attn.lora_out_proj_B', 'image_encoder.transformer.resblocks.4.attn.lora_Q_B', 'text_encoder.transformer.resblocks.6.attn.lora_out_proj_A', 'image_encoder.transformer.resblocks.7.mlp.c_proj.linear.lora_B', 'image_encoder.transformer.resblocks.8.attn.lora_V_A', 'text_encoder.transformer.resblocks.7.mlp.c_fc.linear.lora_A', 'trans_block.atten.attn.out_proj.weight', 'text_encoder.transformer.resblocks.7.attn.lora_K_A', 'image_encoder.transformer.resblocks.3.attn.lora_V_A', 'embedding_weight_t', 'text_encoder.transformer.resblocks.4.attn.lora_Q_B', 'trans_block.ln_post.bias', 'text_encoder.transformer.resblocks.11.mlp.c_fc.linear.lora_A', 'image_encoder.transformer.resblocks.8.mlp.c_fc.linear.lora_B', 'image_encoder.transformer.resblocks.7.attn.lora_V_B', 'text_encoder.transformer.resblocks.6.attn.lora_V_A', 'image_encoder.transformer.resblocks.8.attn.lora_V_B', 'image_encoder.transformer.resblocks.6.attn.lora_out_proj_A', 'image_encoder.transformer.resblocks.11.attn.lora_V_A', 'image_encoder.transformer.resblocks.10.attn.lora_out_proj_B', 'text_encoder.transformer.resblocks.3.mlp.c_fc.linear.lora_B', 'image_encoder.transformer.resblocks.7.attn.lora_Q_B', 'text_encoder.transformer.resblocks.8.attn.lora_V_A', 'text_encoder.transformer.resblocks.11.attn.lora_K_B', 'cls_head.bias', 'image_encoder.transformer.resblocks.3.attn.lora_K_A', 'image_encoder.transformer.resblocks.7.attn.lora_out_proj_B', 'image_encoder.transformer.resblocks.10.mlp.c_fc.linear.lora_A', 'text_encoder.transformer.resblocks.11.attn.lora_Q_A', 'image_encoder.transformer.resblocks.6.attn.lora_V_B', 'text_encoder.transformer.resblocks.9.attn.lora_out_proj_B', 'text_encoder.transformer.resblocks.6.mlp.c_fc.linear.lora_A', 'image_encoder.transformer.resblocks.10.mlp.c_proj.linear.lora_B', 'image_encoder.transformer.resblocks.7.mlp.c_proj.linear.lora_A', 'image_encoder.transformer.resblocks.4.attn.lora_V_B', 'image_encoder.transformer.resblocks.8.attn.lora_out_proj_A', 'prompt_learner.ctx', 'image_encoder.transformer.resblocks.7.attn.lora_K_B', 'image_encoder.transformer.resblocks.4.attn.lora_K_B', 'trans_block.atten.attn.in_proj_bias', 'text_encoder.transformer.resblocks.4.attn.lora_out_proj_A', 'trans_block.atten.ln_2.bias', 'image_encoder.transformer.resblocks.11.mlp.c_fc.linear.lora_A', 'image_encoder.transformer.resblocks.8.attn.lora_Q_B', 'image_encoder.transformer.resblocks.4.attn.lora_out_proj_B', 'text_encoder.transformer.resblocks.3.attn.lora_K_B', 'text_encoder.transformer.resblocks.4.attn.lora_out_proj_B', 'text_encoder.transformer.resblocks.7.attn.lora_Q_B', 'image_encoder.transformer.resblocks.7.attn.lora_Q_A', 'image_encoder.transformer.resblocks.6.mlp.c_fc.linear.lora_A', 'text_encoder.transformer.resblocks.5.mlp.c_proj.linear.lora_B', 'image_encoder.transformer.resblocks.5.mlp.c_fc.linear.lora_B', 'image_encoder.transformer.resblocks.6.attn.lora_Q_B', 'text_encoder.transformer.resblocks.7.attn.lora_K_B', 'text_encoder.transformer.resblocks.7.attn.lora_out_proj_B', 'text_encoder.transformer.resblocks.8.mlp.c_proj.linear.lora_A', 'text_encoder.transformer.resblocks.10.mlp.c_proj.linear.lora_A', 'image_encoder.transformer.resblocks.9.attn.lora_out_proj_B', 'image_encoder.transformer.resblocks.6.attn.lora_Q_A', 'image_encoder.transformer.resblocks.3.mlp.c_fc.linear.lora_B', 'image_encoder.transformer.resblocks.9.attn.lora_Q_B', 'text_encoder.transformer.resblocks.5.attn.lora_V_B', 'prompt_learner.meta_net.linear2.bias', 'text_encoder.transformer.resblocks.6.mlp.c_proj.linear.lora_B', 'text_encoder.transformer.resblocks.9.mlp.c_fc.linear.lora_B', 'text_encoder.transformer.resblocks.9.attn.lora_V_B', 'text_encoder.transformer.resblocks.7.attn.lora_out_proj_A', 'text_encoder.transformer.resblocks.4.attn.lora_K_A', 'text_encoder.transformer.resblocks.10.attn.lora_V_A', 'text_encoder.transformer.resblocks.10.attn.lora_K_B', 'text_encoder.transformer.resblocks.11.attn.lora_V_B', 'image_encoder.transformer.resblocks.5.attn.lora_Q_A', 'prompt_learner.meta_net.linear2.weight', 'text_encoder.transformer.resblocks.5.attn.lora_Q_A', 'text_encoder.transformer.resblocks.10.mlp.c_fc.linear.lora_A', 'text_encoder.transformer.resblocks.6.attn.lora_Q_A', 'image_encoder.transformer.resblocks.5.mlp.c_fc.linear.lora_A', 'trans_block.proj', 'text_encoder.transformer.resblocks.4.attn.lora_V_A', 'image_encoder.transformer.resblocks.8.mlp.c_fc.linear.lora_A', 'text_encoder.transformer.resblocks.7.mlp.c_fc.linear.lora_B', 'image_encoder.transformer.resblocks.5.attn.lora_K_A', 'image_encoder.transformer.resblocks.8.attn.lora_out_proj_B', 'text_encoder.transformer.resblocks.10.mlp.c_proj.linear.lora_B', 'image_encoder.transformer.resblocks.10.attn.lora_K_A', 'image_encoder.transformer.resblocks.5.attn.lora_out_proj_B', 'image_encoder.transformer.resblocks.11.attn.lora_Q_B', 'image_encoder.transformer.resblocks.11.mlp.c_proj.linear.lora_A', 'text_encoder.transformer.resblocks.4.mlp.c_fc.linear.lora_A', 'text_encoder.transformer.resblocks.10.attn.lora_out_proj_A', 'text_encoder.transformer.resblocks.5.attn.lora_Q_B', 'image_encoder.transformer.resblocks.11.attn.lora_Q_A', 'text_encoder.transformer.resblocks.9.attn.lora_K_B', 'prompt_learner.meta_net.linear1.weight', 'text_encoder.transformer.resblocks.11.mlp.c_proj.linear.lora_B', 'trans_block.atten.ln_2.weight', 'text_encoder.transformer.resblocks.9.attn.lora_K_A', 'image_encoder.transformer.resblocks.5.mlp.c_proj.linear.lora_B', 'image_encoder.transformer.resblocks.6.attn.lora_V_A', 'text_encoder.transformer.resblocks.5.attn.lora_V_A', 'image_encoder.transformer.resblocks.4.attn.lora_K_A', 'text_encoder.transformer.resblocks.7.mlp.c_proj.linear.lora_A', 'text_encoder.transformer.resblocks.8.mlp.c_proj.linear.lora_B', 'image_encoder.transformer.resblocks.5.mlp.c_proj.linear.lora_A', 'text_encoder.transformer.resblocks.9.attn.lora_V_A', 'text_encoder.transformer.resblocks.9.mlp.c_fc.linear.lora_A', 'text_encoder.transformer.resblocks.10.attn.lora_K_A', 'text_encoder.transformer.resblocks.3.attn.lora_V_A', 'image_encoder.transformer.resblocks.10.attn.lora_V_A', 'image_encoder.transformer.resblocks.3.mlp.c_fc.linear.lora_A', 'image_encoder.transformer.resblocks.5.attn.lora_out_proj_A', 'text_encoder.transformer.resblocks.11.mlp.c_fc.linear.lora_B', 'image_encoder.transformer.resblocks.9.mlp.c_proj.linear.lora_A', 'text_encoder.transformer.resblocks.8.attn.lora_Q_A', 'text_encoder.transformer.resblocks.9.mlp.c_proj.linear.lora_A', 'text_encoder.transformer.resblocks.10.attn.lora_Q_A', 'text_encoder.transformer.resblocks.11.mlp.c_proj.linear.lora_A', 'trans_block.atten.ln_1.bias', 'image_encoder.transformer.resblocks.3.attn.lora_V_B', 'image_encoder.transformer.resblocks.4.mlp.c_fc.linear.lora_A', 'image_encoder.transformer.resblocks.4.mlp.c_fc.linear.lora_B', 'text_encoder.transformer.resblocks.5.attn.lora_K_B', 'trans_block.atten.mlp.c_proj.weight', 'text_encoder.transformer.resblocks.4.attn.lora_V_B', 'text_encoder.transformer.resblocks.3.attn.lora_K_A', 'text_encoder.transformer.resblocks.6.attn.lora_K_A', 'image_encoder.transformer.resblocks.7.attn.lora_out_proj_A', 'image_encoder.transformer.resblocks.7.mlp.c_fc.linear.lora_A', 'image_encoder.transformer.resblocks.11.mlp.c_fc.linear.lora_B', 'text_encoder.transformer.resblocks.9.mlp.c_proj.linear.lora_B', 'text_encoder.transformer.resblocks.11.attn.lora_K_A', 'image_encoder.transformer.resblocks.8.mlp.c_proj.linear.lora_B', 'image_encoder.transformer.resblocks.10.attn.lora_V_B', 'text_encoder.transformer.resblocks.9.attn.lora_out_proj_A', 'text_encoder.transformer.resblocks.6.mlp.c_fc.linear.lora_B', 'image_encoder.transformer.resblocks.4.mlp.c_proj.linear.lora_B'}
+Loading evaluator: Classification
+No checkpoint found, train from scratch
+Initialize tensorboard (log_dir=/caltech101/vit_b16_cepl_16shots/seed2/tensorboard)
+epoch [1/20] batch [100/1600] time 0.140 (0.205) data 0.000 (0.019) loss 13.6667 (17.9474) cls_loss 3.6747 (8.6901) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.5947 (0.5036) contrast_loss 4.5577 (4.5512) lr 1.0000e-05 eta 1:48:44
+epoch [1/20] batch [200/1600] time 0.145 (0.174) data 0.000 (0.010) loss 18.3534 (16.5736) cls_loss 7.5195 (6.7448) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.6982 (0.5753) contrast_loss 4.5712 (4.5499) lr 1.0000e-05 eta 1:32:07
+epoch [1/20] batch [300/1600] time 0.143 (0.165) data 0.000 (0.007) loss 13.5290 (16.2073) cls_loss 3.2089 (6.1353) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.6398 (0.6057) contrast_loss 4.5250 (4.5497) lr 1.0000e-05 eta 1:26:56
+epoch [1/20] batch [400/1600] time 0.145 (0.160) data 0.000 (0.005) loss 24.4268 (15.9137) cls_loss 12.8805 (5.7205) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.7869 (0.6210) contrast_loss 4.5743 (4.5483) lr 1.0000e-05 eta 1:24:19
+epoch [1/20] batch [500/1600] time 0.138 (0.157) data 0.000 (0.004) loss 13.2830 (15.5811) cls_loss 3.3044 (5.4022) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.5946 (0.6193) contrast_loss 4.5449 (4.5477) lr 1.0000e-05 eta 1:22:31
+epoch [1/20] batch [600/1600] time 0.162 (0.155) data 0.001 (0.004) loss 22.0573 (15.3780) cls_loss 11.1898 (5.2209) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.6997 (0.6167) contrast_loss 4.5932 (4.5468) lr 1.0000e-05 eta 1:21:14
+epoch [1/20] batch [700/1600] time 0.138 (0.154) data 0.000 (0.003) loss 16.9859 (15.2442) cls_loss 6.5294 (5.0905) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.6616 (0.6163) contrast_loss 4.4866 (4.5466) lr 1.0000e-05 eta 1:20:12
+epoch [1/20] batch [800/1600] time 0.145 (0.153) data 0.000 (0.003) loss 13.4660 (15.0944) cls_loss 3.5751 (4.9472) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.5819 (0.6155) contrast_loss 4.5588 (4.5459) lr 1.0000e-05 eta 1:19:27
+epoch [1/20] batch [900/1600] time 0.143 (0.152) data 0.000 (0.003) loss 13.1941 (14.9602) cls_loss 3.5216 (4.8497) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.5554 (0.6110) contrast_loss 4.5526 (4.5459) lr 1.0000e-05 eta 1:18:48
+epoch [1/20] batch [1000/1600] time 0.138 (0.151) data 0.000 (0.002) loss 13.3798 (14.8325) cls_loss 3.6833 (4.7574) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.5615 (0.6066) contrast_loss 4.5272 (4.5456) lr 1.0000e-05 eta 1:18:00
+epoch [1/20] batch [1100/1600] time 0.145 (0.150) data 0.000 (0.002) loss 11.2456 (14.7651) cls_loss 1.5549 (4.7104) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.5585 (0.6041) contrast_loss 4.5455 (4.5451) lr 1.0000e-05 eta 1:17:29
+epoch [1/20] batch [1200/1600] time 0.140 (0.150) data 0.000 (0.002) loss 12.7380 (14.6895) cls_loss 3.0479 (4.6571) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.5579 (0.6013) contrast_loss 4.5502 (4.5450) lr 1.0000e-05 eta 1:17:03
+epoch [1/20] batch [1300/1600] time 0.145 (0.150) data 0.000 (0.002) loss 18.1303 (14.6569) cls_loss 7.4685 (4.6375) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.6827 (0.5997) contrast_loss 4.5231 (4.5450) lr 1.0000e-05 eta 1:16:36
+epoch [1/20] batch [1400/1600] time 0.149 (0.149) data 0.000 (0.002) loss 12.2883 (14.5998) cls_loss 2.7833 (4.5964) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.5347 (0.5977) contrast_loss 4.5503 (4.5449) lr 1.0000e-05 eta 1:16:10
+epoch [1/20] batch [1500/1600] time 0.141 (0.149) data 0.000 (0.002) loss 15.4476 (14.5160) cls_loss 5.7330 (4.5396) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.5584 (0.5944) contrast_loss 4.5701 (4.5446) lr 1.0000e-05 eta 1:15:48
+epoch [1/20] batch [1600/1600] time 0.136 (0.149) data 0.000 (0.002) loss 11.2846 (14.4849) cls_loss 2.0733 (4.5217) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.5015 (0.5927) contrast_loss 4.5223 (4.5445) lr 2.0000e-03 eta 1:15:28
+epoch [2/20] batch [100/1600] time 0.140 (0.149) data 0.000 (0.006) loss 60.8383 (48.5472) cls_loss 52.0010 (39.2626) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.4344 (0.5039) contrast_loss 4.6856 (4.5763) lr 2.0000e-03 eta 1:15:21
+epoch [2/20] batch [200/1600] time 0.149 (0.148) data 0.000 (0.003) loss 10.3918 (32.5822) cls_loss 1.8882 (23.7028) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.4200 (0.4577) contrast_loss 4.4669 (4.5409) lr 2.0000e-03 eta 1:14:19
+epoch [2/20] batch [300/1600] time 0.169 (0.148) data 0.000 (0.002) loss 11.7090 (25.7481) cls_loss 3.8833 (17.1509) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.3440 (0.4259) contrast_loss 4.3966 (4.5132) lr 2.0000e-03 eta 1:14:10
+epoch [2/20] batch [400/1600] time 0.147 (0.147) data 0.000 (0.002) loss 13.7496 (22.2006) cls_loss 6.1132 (13.8586) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.3089 (0.3959) contrast_loss 4.4881 (4.4978) lr 2.0000e-03 eta 1:13:31
+epoch [2/20] batch [500/1600] time 0.143 (0.147) data 0.000 (0.002) loss 13.5291 (19.9839) cls_loss 6.2243 (11.8292) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.2680 (0.3737) contrast_loss 4.4841 (4.4883) lr 2.0000e-03 eta 1:13:11
+epoch [2/20] batch [600/1600] time 0.142 (0.147) data 0.000 (0.002) loss 14.1432 (18.5438) cls_loss 6.4545 (10.5113) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.3259 (0.3591) contrast_loss 4.4044 (4.4825) lr 2.0000e-03 eta 1:12:49
+epoch [2/20] batch [700/1600] time 0.155 (0.147) data 0.000 (0.001) loss 10.0321 (17.4267) cls_loss 2.7997 (9.5004) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.2725 (0.3467) contrast_loss 4.3754 (4.4759) lr 2.0000e-03 eta 1:12:32
+epoch [2/20] batch [800/1600] time 0.146 (0.147) data 0.000 (0.001) loss 18.2342 (16.5423) cls_loss 9.9741 (8.7269) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.4111 (0.3335) contrast_loss 4.2945 (4.4708) lr 2.0000e-03 eta 1:12:17
+epoch [2/20] batch [900/1600] time 0.145 (0.146) data 0.009 (0.001) loss 9.8384 (15.8852) cls_loss 2.5791 (8.1485) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.2763 (0.3241) contrast_loss 4.3719 (4.4668) lr 2.0000e-03 eta 1:11:50
+epoch [2/20] batch [1000/1600] time 0.145 (0.146) data 0.000 (0.001) loss 9.9972 (15.3553) cls_loss 2.5217 (7.6799) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.2984 (0.3169) contrast_loss 4.4113 (4.4635) lr 2.0000e-03 eta 1:11:37
+epoch [2/20] batch [1100/1600] time 0.147 (0.146) data 0.000 (0.001) loss 8.7987 (14.8883) cls_loss 2.3042 (7.2809) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1755 (0.3087) contrast_loss 4.4136 (4.4609) lr 2.0000e-03 eta 1:11:22
+epoch [2/20] batch [1200/1600] time 0.145 (0.146) data 0.000 (0.001) loss 8.9053 (14.4830) cls_loss 2.1035 (6.9360) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.2180 (0.3016) contrast_loss 4.3805 (4.4571) lr 2.0000e-03 eta 1:11:08
+epoch [2/20] batch [1300/1600] time 0.155 (0.146) data 0.006 (0.001) loss 8.6474 (14.1321) cls_loss 1.9690 (6.6429) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1972 (0.2947) contrast_loss 4.4239 (4.4543) lr 2.0000e-03 eta 1:10:53
+epoch [2/20] batch [1400/1600] time 0.142 (0.146) data 0.000 (0.001) loss 8.8713 (13.8149) cls_loss 2.2758 (6.3811) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.2005 (0.2883) contrast_loss 4.3144 (4.4508) lr 2.0000e-03 eta 1:10:40
+epoch [2/20] batch [1500/1600] time 0.152 (0.146) data 0.000 (0.001) loss 21.1167 (13.5582) cls_loss 12.4050 (6.1735) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.4326 (0.2823) contrast_loss 4.5744 (4.4490) lr 2.0000e-03 eta 1:10:26
+epoch [2/20] batch [1600/1600] time 0.158 (0.146) data 0.000 (0.001) loss 8.6869 (13.3332) cls_loss 2.2191 (5.9837) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1647 (0.2782) contrast_loss 4.4730 (4.4472) lr 1.9877e-03 eta 1:10:12
+epoch [3/20] batch [100/1600] time 0.156 (0.142) data 0.000 (0.005) loss 16.3444 (9.9119) cls_loss 8.7544 (3.0975) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.2809 (0.2153) contrast_loss 4.6657 (4.4148) lr 1.9877e-03 eta 1:07:59
+epoch [3/20] batch [200/1600] time 0.147 (0.144) data 0.000 (0.003) loss 8.7596 (9.6994) cls_loss 2.5436 (2.9367) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1448 (0.2103) contrast_loss 4.3803 (4.4036) lr 1.9877e-03 eta 1:08:35
+epoch [3/20] batch [300/1600] time 0.153 (0.145) data 0.000 (0.002) loss 11.8656 (9.7642) cls_loss 4.5335 (3.0218) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.2717 (0.2072) contrast_loss 4.4814 (4.4080) lr 1.9877e-03 eta 1:08:51
+epoch [3/20] batch [400/1600] time 0.151 (0.145) data 0.000 (0.002) loss 9.5556 (9.7285) cls_loss 3.2573 (3.0084) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1448 (0.2044) contrast_loss 4.4627 (4.4081) lr 1.9877e-03 eta 1:08:50
+epoch [3/20] batch [500/1600] time 0.151 (0.146) data 0.000 (0.001) loss 12.9016 (9.6652) cls_loss 6.2121 (2.9795) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1886 (0.2003) contrast_loss 4.5039 (4.4064) lr 1.9877e-03 eta 1:08:40
+epoch [3/20] batch [600/1600] time 0.140 (0.146) data 0.000 (0.001) loss 10.8774 (9.6885) cls_loss 4.1394 (2.9966) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.2066 (0.2011) contrast_loss 4.4081 (4.4062) lr 1.9877e-03 eta 1:08:32
+epoch [3/20] batch [700/1600] time 0.151 (0.146) data 0.000 (0.001) loss 8.7553 (9.6820) cls_loss 2.3797 (2.9939) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1696 (0.2006) contrast_loss 4.3419 (4.4061) lr 1.9877e-03 eta 1:08:24
+epoch [3/20] batch [800/1600] time 0.157 (0.146) data 0.000 (0.001) loss 10.5380 (9.6501) cls_loss 4.1406 (2.9769) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1489 (0.1991) contrast_loss 4.5296 (4.4035) lr 1.9877e-03 eta 1:08:12
+epoch [3/20] batch [900/1600] time 0.153 (0.146) data 0.000 (0.001) loss 8.5887 (9.6421) cls_loss 2.4016 (2.9692) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1423 (0.1991) contrast_loss 4.3720 (4.4029) lr 1.9877e-03 eta 1:07:51
+epoch [3/20] batch [1000/1600] time 0.151 (0.146) data 0.000 (0.001) loss 9.7783 (9.6157) cls_loss 2.7220 (2.9532) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.2539 (0.1980) contrast_loss 4.3481 (4.4018) lr 1.9877e-03 eta 1:07:41
+epoch [3/20] batch [1100/1600] time 0.162 (0.146) data 0.008 (0.001) loss 9.0434 (9.5919) cls_loss 2.7742 (2.9459) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1534 (0.1960) contrast_loss 4.3650 (4.4010) lr 1.9877e-03 eta 1:07:26
+epoch [3/20] batch [1200/1600] time 0.140 (0.146) data 0.000 (0.001) loss 10.3406 (9.6192) cls_loss 3.3924 (2.9631) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.2259 (0.1973) contrast_loss 4.4641 (4.4008) lr 1.9877e-03 eta 1:07:15
+epoch [3/20] batch [1300/1600] time 0.141 (0.146) data 0.002 (0.001) loss 11.2541 (9.6068) cls_loss 3.8705 (2.9550) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.2804 (0.1968) contrast_loss 4.4631 (4.4004) lr 1.9877e-03 eta 1:06:59
+epoch [3/20] batch [1400/1600] time 0.148 (0.146) data 0.000 (0.001) loss 9.0650 (9.6020) cls_loss 2.3037 (2.9549) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.2173 (0.1963) contrast_loss 4.3463 (4.3999) lr 1.9877e-03 eta 1:06:44
+epoch [3/20] batch [1500/1600] time 0.143 (0.146) data 0.000 (0.001) loss 8.4304 (9.5821) cls_loss 1.9730 (2.9400) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1786 (0.1957) contrast_loss 4.3512 (4.3994) lr 1.9877e-03 eta 1:06:31
+epoch [3/20] batch [1600/1600] time 0.153 (0.146) data 0.000 (0.001) loss 9.3879 (9.5747) cls_loss 2.9976 (2.9379) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1579 (0.1951) contrast_loss 4.4505 (4.3989) lr 1.9511e-03 eta 1:06:09
+epoch [4/20] batch [100/1600] time 0.138 (0.152) data 0.000 (0.005) loss 9.0272 (9.4046) cls_loss 2.3503 (2.8264) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.2008 (0.1900) contrast_loss 4.3936 (4.3810) lr 1.9511e-03 eta 1:08:30
+epoch [4/20] batch [200/1600] time 0.142 (0.149) data 0.002 (0.003) loss 10.3273 (9.4565) cls_loss 3.8038 (2.8646) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1682 (0.1911) contrast_loss 4.5007 (4.3863) lr 1.9511e-03 eta 1:06:51
+epoch [4/20] batch [300/1600] time 0.145 (0.148) data 0.000 (0.002) loss 11.1893 (9.4239) cls_loss 4.6551 (2.8612) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1652 (0.1874) contrast_loss 4.5360 (4.3869) lr 1.9511e-03 eta 1:06:17
+epoch [4/20] batch [400/1600] time 0.154 (0.147) data 0.000 (0.002) loss 8.5047 (9.3803) cls_loss 2.0806 (2.8372) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1795 (0.1847) contrast_loss 4.3113 (4.3882) lr 1.9511e-03 eta 1:05:44
+epoch [4/20] batch [500/1600] time 0.143 (0.147) data 0.000 (0.002) loss 8.1513 (9.3796) cls_loss 2.0316 (2.8329) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1306 (0.1854) contrast_loss 4.3978 (4.3864) lr 1.9511e-03 eta 1:05:28
+epoch [4/20] batch [600/1600] time 0.140 (0.147) data 0.001 (0.001) loss 8.4272 (9.3673) cls_loss 2.1920 (2.8248) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1474 (0.1848) contrast_loss 4.3789 (4.3874) lr 1.9511e-03 eta 1:05:09
+epoch [4/20] batch [700/1600] time 0.145 (0.147) data 0.000 (0.001) loss 10.3018 (9.3629) cls_loss 3.8964 (2.8169) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1568 (0.1853) contrast_loss 4.4743 (4.3864) lr 1.9511e-03 eta 1:04:52
+epoch [4/20] batch [800/1600] time 0.145 (0.146) data 0.000 (0.001) loss 8.5114 (9.3800) cls_loss 2.2430 (2.8238) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1455 (0.1867) contrast_loss 4.4270 (4.3855) lr 1.9511e-03 eta 1:04:22
+epoch [4/20] batch [900/1600] time 0.142 (0.146) data 0.000 (0.001) loss 8.4564 (9.3668) cls_loss 2.1861 (2.8074) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1566 (0.1872) contrast_loss 4.3404 (4.3847) lr 1.9511e-03 eta 1:04:09
+epoch [4/20] batch [1000/1600] time 0.151 (0.146) data 0.000 (0.001) loss 11.0010 (9.3797) cls_loss 3.3251 (2.8099) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.3355 (0.1886) contrast_loss 4.3151 (4.3841) lr 1.9511e-03 eta 1:03:53
+epoch [4/20] batch [1100/1600] time 0.145 (0.146) data 0.000 (0.001) loss 8.9883 (9.3694) cls_loss 2.6148 (2.8027) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1650 (0.1883) contrast_loss 4.3762 (4.3831) lr 1.9511e-03 eta 1:03:37
+epoch [4/20] batch [1200/1600] time 0.133 (0.146) data 0.000 (0.001) loss 8.2512 (9.3461) cls_loss 2.2451 (2.7875) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1162 (0.1875) contrast_loss 4.3994 (4.3820) lr 1.9511e-03 eta 1:03:24
+epoch [4/20] batch [1300/1600] time 0.149 (0.146) data 0.002 (0.001) loss 9.2429 (9.3478) cls_loss 2.3977 (2.7836) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.2283 (0.1882) contrast_loss 4.3419 (4.3818) lr 1.9511e-03 eta 1:03:08
+epoch [4/20] batch [1400/1600] time 0.158 (0.146) data 0.000 (0.001) loss 9.2524 (9.3222) cls_loss 2.3781 (2.7653) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.2293 (0.1874) contrast_loss 4.3632 (4.3810) lr 1.9511e-03 eta 1:02:54
+epoch [4/20] batch [1500/1600] time 0.142 (0.146) data 0.000 (0.001) loss 7.8552 (9.2938) cls_loss 1.8495 (2.7457) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1112 (0.1863) contrast_loss 4.4390 (4.3805) lr 1.9511e-03 eta 1:02:36
+epoch [4/20] batch [1600/1600] time 0.150 (0.146) data 0.000 (0.001) loss 8.7624 (9.2721) cls_loss 2.2614 (2.7304) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1826 (0.1857) contrast_loss 4.3629 (4.3792) lr 1.8910e-03 eta 1:02:17
+epoch [5/20] batch [100/1600] time 0.147 (0.151) data 0.000 (0.005) loss 9.0305 (8.9483) cls_loss 2.6177 (2.5137) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1688 (0.1731) contrast_loss 4.3853 (4.3725) lr 1.8910e-03 eta 1:04:04
+epoch [5/20] batch [200/1600] time 0.161 (0.149) data 0.004 (0.003) loss 9.1081 (9.0641) cls_loss 2.1629 (2.5885) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.2306 (0.1783) contrast_loss 4.4237 (4.3724) lr 1.8910e-03 eta 1:03:01
+epoch [5/20] batch [300/1600] time 0.144 (0.148) data 0.000 (0.002) loss 8.1485 (9.0816) cls_loss 2.0893 (2.5832) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1302 (0.1812) contrast_loss 4.3407 (4.3716) lr 1.8910e-03 eta 1:02:25
+epoch [5/20] batch [400/1600] time 0.149 (0.148) data 0.000 (0.002) loss 9.5758 (9.0536) cls_loss 2.6106 (2.5557) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.2387 (0.1812) contrast_loss 4.3783 (4.3713) lr 1.8910e-03 eta 1:02:02
+epoch [5/20] batch [500/1600] time 0.151 (0.147) data 0.000 (0.001) loss 9.3003 (9.0361) cls_loss 2.5006 (2.5458) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.2235 (0.1803) contrast_loss 4.3345 (4.3708) lr 1.8910e-03 eta 1:01:39
+epoch [5/20] batch [600/1600] time 0.148 (0.147) data 0.001 (0.001) loss 8.3985 (9.0534) cls_loss 2.1363 (2.5553) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1632 (0.1812) contrast_loss 4.2799 (4.3715) lr 1.8910e-03 eta 1:01:18
+epoch [5/20] batch [700/1600] time 0.103 (0.145) data 0.000 (0.001) loss 10.7654 (9.0423) cls_loss 4.0271 (2.5456) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1967 (0.1810) contrast_loss 4.4874 (4.3714) lr 1.8910e-03 eta 1:00:12
+epoch [5/20] batch [800/1600] time 0.142 (0.141) data 0.001 (0.001) loss 7.7794 (9.0015) cls_loss 1.7163 (2.5205) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1367 (0.1792) contrast_loss 4.2929 (4.3703) lr 1.8910e-03 eta 0:58:28
+epoch [5/20] batch [900/1600] time 0.147 (0.142) data 0.004 (0.001) loss 7.7557 (9.0128) cls_loss 1.5971 (2.5300) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1406 (0.1795) contrast_loss 4.3564 (4.3702) lr 1.8910e-03 eta 0:58:25
+epoch [5/20] batch [1000/1600] time 0.148 (0.142) data 0.000 (0.001) loss 8.6880 (8.9865) cls_loss 2.3670 (2.5069) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1612 (0.1792) contrast_loss 4.3542 (4.3690) lr 1.8910e-03 eta 0:58:19
+epoch [5/20] batch [1100/1600] time 0.147 (0.143) data 0.000 (0.001) loss 9.0003 (8.9700) cls_loss 2.1810 (2.5015) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.2067 (0.1778) contrast_loss 4.4888 (4.3692) lr 1.8910e-03 eta 0:58:14
+epoch [5/20] batch [1200/1600] time 0.140 (0.143) data 0.000 (0.001) loss 8.5063 (8.9588) cls_loss 2.0182 (2.4973) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1785 (0.1770) contrast_loss 4.3832 (4.3689) lr 1.8910e-03 eta 0:58:09
+epoch [5/20] batch [1300/1600] time 0.140 (0.143) data 0.000 (0.001) loss 8.6556 (8.9353) cls_loss 2.3899 (2.4833) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1452 (0.1759) contrast_loss 4.4275 (4.3676) lr 1.8910e-03 eta 0:58:00
+epoch [5/20] batch [1400/1600] time 0.142 (0.143) data 0.000 (0.001) loss 12.0557 (8.9289) cls_loss 5.3894 (2.4829) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1773 (0.1752) contrast_loss 4.5708 (4.3671) lr 1.8910e-03 eta 0:57:51
+epoch [5/20] batch [1500/1600] time 0.143 (0.144) data 0.000 (0.001) loss 8.1809 (8.9291) cls_loss 2.0716 (2.4828) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1435 (0.1754) contrast_loss 4.2845 (4.3663) lr 1.8910e-03 eta 0:57:40
+epoch [5/20] batch [1600/1600] time 0.103 (0.142) data 0.000 (0.001) loss 7.6478 (8.9334) cls_loss 1.8147 (2.4915) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1036 (0.1748) contrast_loss 4.3269 (4.3662) lr 1.8090e-03 eta 0:56:47
+epoch [6/20] batch [100/1600] time 0.107 (0.111) data 0.005 (0.006) loss 8.9403 (8.7019) cls_loss 2.4132 (2.3515) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1881 (0.1653) contrast_loss 4.3456 (4.3513) lr 1.8090e-03 eta 0:44:20
+epoch [6/20] batch [200/1600] time 0.097 (0.108) data 0.000 (0.004) loss 8.1677 (8.7372) cls_loss 1.8961 (2.3389) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1545 (0.1715) contrast_loss 4.3587 (4.3489) lr 1.8090e-03 eta 0:42:58
+epoch [6/20] batch [300/1600] time 0.149 (0.113) data 0.000 (0.003) loss 8.1434 (8.7424) cls_loss 2.0648 (2.3508) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1263 (0.1706) contrast_loss 4.3915 (4.3502) lr 1.8090e-03 eta 0:44:43
+epoch [6/20] batch [400/1600] time 0.145 (0.123) data 0.000 (0.002) loss 7.7416 (8.7619) cls_loss 1.8278 (2.3713) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1137 (0.1705) contrast_loss 4.3272 (4.3494) lr 1.8090e-03 eta 0:48:13
+epoch [6/20] batch [500/1600] time 0.152 (0.128) data 0.000 (0.002) loss 8.1270 (8.7726) cls_loss 2.0216 (2.3934) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1394 (0.1688) contrast_loss 4.3131 (4.3518) lr 1.8090e-03 eta 0:50:09
+epoch [6/20] batch [600/1600] time 0.155 (0.132) data 0.000 (0.002) loss 8.3647 (8.8219) cls_loss 2.0792 (2.4363) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1630 (0.1692) contrast_loss 4.3046 (4.3548) lr 1.8090e-03 eta 0:51:20
+epoch [6/20] batch [700/1600] time 0.147 (0.134) data 0.000 (0.001) loss 8.6741 (8.8703) cls_loss 2.3789 (2.4676) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1607 (0.1711) contrast_loss 4.3331 (4.3570) lr 1.8090e-03 eta 0:52:05
+epoch [6/20] batch [800/1600] time 0.147 (0.136) data 0.000 (0.001) loss 8.1847 (8.8633) cls_loss 1.7972 (2.4587) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1786 (0.1713) contrast_loss 4.2819 (4.3571) lr 1.8090e-03 eta 0:52:39
+epoch [6/20] batch [900/1600] time 0.153 (0.138) data 0.000 (0.001) loss 7.5988 (8.8230) cls_loss 1.6498 (2.4294) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1212 (0.1702) contrast_loss 4.3021 (4.3552) lr 1.8090e-03 eta 0:52:58
+epoch [6/20] batch [1000/1600] time 0.149 (0.139) data 0.000 (0.001) loss 7.9439 (8.8168) cls_loss 1.9355 (2.4259) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1081 (0.1698) contrast_loss 4.4666 (4.3557) lr 1.8090e-03 eta 0:53:15
+epoch [6/20] batch [1100/1600] time 0.146 (0.140) data 0.000 (0.001) loss 7.7486 (8.8243) cls_loss 1.9137 (2.4339) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.0991 (0.1697) contrast_loss 4.3648 (4.3561) lr 1.8090e-03 eta 0:53:26
+epoch [6/20] batch [1200/1600] time 0.160 (0.141) data 0.000 (0.001) loss 8.1825 (8.8305) cls_loss 2.2499 (2.4418) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1150 (0.1694) contrast_loss 4.3358 (4.3563) lr 1.8090e-03 eta 0:53:32
+epoch [6/20] batch [1300/1600] time 0.148 (0.142) data 0.000 (0.001) loss 7.6270 (8.8264) cls_loss 1.7500 (2.4424) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1081 (0.1687) contrast_loss 4.3351 (4.3578) lr 1.8090e-03 eta 0:53:34
+epoch [6/20] batch [1400/1600] time 0.152 (0.142) data 0.000 (0.001) loss 11.0558 (8.8262) cls_loss 4.4146 (2.4405) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1831 (0.1688) contrast_loss 4.4990 (4.3580) lr 1.8090e-03 eta 0:53:33
+epoch [6/20] batch [1500/1600] time 0.148 (0.143) data 0.000 (0.001) loss 8.7023 (8.8127) cls_loss 2.1329 (2.4314) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.2020 (0.1685) contrast_loss 4.2766 (4.3567) lr 1.8090e-03 eta 0:53:31
+epoch [6/20] batch [1600/1600] time 0.147 (0.143) data 0.000 (0.001) loss 7.8735 (8.8133) cls_loss 1.8752 (2.4341) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1250 (0.1681) contrast_loss 4.3211 (4.3574) lr 1.7071e-03 eta 0:53:28
+epoch [7/20] batch [100/1600] time 0.149 (0.155) data 0.000 (0.005) loss 8.1839 (8.7129) cls_loss 1.9071 (2.3132) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1580 (0.1711) contrast_loss 4.3358 (4.3537) lr 1.7071e-03 eta 0:57:30
+epoch [7/20] batch [200/1600] time 0.149 (0.151) data 0.000 (0.003) loss 7.5000 (8.6720) cls_loss 1.4629 (2.3050) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1383 (0.1674) contrast_loss 4.2536 (4.3505) lr 1.7071e-03 eta 0:56:03
+epoch [7/20] batch [300/1600] time 0.155 (0.151) data 0.000 (0.002) loss 8.2578 (8.6873) cls_loss 2.1441 (2.3180) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1369 (0.1676) contrast_loss 4.3416 (4.3517) lr 1.7071e-03 eta 0:55:42
+epoch [7/20] batch [400/1600] time 0.149 (0.151) data 0.000 (0.002) loss 8.1810 (8.7209) cls_loss 2.1205 (2.3430) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1268 (0.1687) contrast_loss 4.3691 (4.3514) lr 1.7071e-03 eta 0:55:30
+epoch [7/20] batch [500/1600] time 0.162 (0.151) data 0.000 (0.001) loss 8.0971 (8.7181) cls_loss 2.2333 (2.3419) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1047 (0.1686) contrast_loss 4.3495 (4.3508) lr 1.7071e-03 eta 0:55:15
+epoch [7/20] batch [600/1600] time 0.147 (0.151) data 0.000 (0.001) loss 9.1692 (8.6869) cls_loss 3.2421 (2.3151) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1205 (0.1683) contrast_loss 4.2864 (4.3482) lr 1.7071e-03 eta 0:54:51
+epoch [7/20] batch [700/1600] time 0.142 (0.151) data 0.000 (0.001) loss 8.0542 (8.6665) cls_loss 1.8220 (2.3093) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1584 (0.1666) contrast_loss 4.2876 (4.3478) lr 1.7071e-03 eta 0:54:31
+epoch [7/20] batch [800/1600] time 0.151 (0.151) data 0.000 (0.001) loss 16.6752 (8.6743) cls_loss 9.4318 (2.3199) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.2378 (0.1662) contrast_loss 4.6641 (4.3475) lr 1.7071e-03 eta 0:54:17
+epoch [7/20] batch [900/1600] time 0.148 (0.151) data 0.000 (0.001) loss 8.2445 (8.6775) cls_loss 1.9119 (2.3137) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1738 (0.1674) contrast_loss 4.2653 (4.3474) lr 1.7071e-03 eta 0:54:02
+epoch [7/20] batch [1000/1600] time 0.155 (0.151) data 0.000 (0.001) loss 8.6540 (8.6694) cls_loss 2.4836 (2.3122) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1327 (0.1665) contrast_loss 4.4319 (4.3484) lr 1.7071e-03 eta 0:53:44
+epoch [7/20] batch [1100/1600] time 0.149 (0.151) data 0.000 (0.001) loss 7.9438 (8.6415) cls_loss 2.1013 (2.2970) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1042 (0.1651) contrast_loss 4.3323 (4.3468) lr 1.7071e-03 eta 0:53:28
+epoch [7/20] batch [1200/1600] time 0.147 (0.151) data 0.000 (0.001) loss 8.1893 (8.6466) cls_loss 1.9580 (2.3049) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1466 (0.1647) contrast_loss 4.3816 (4.3468) lr 1.7071e-03 eta 0:53:12
+epoch [7/20] batch [1300/1600] time 0.147 (0.150) data 0.000 (0.001) loss 10.0147 (8.6491) cls_loss 2.8863 (2.3017) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.2615 (0.1655) contrast_loss 4.3594 (4.3464) lr 1.7071e-03 eta 0:52:54
+epoch [7/20] batch [1400/1600] time 0.149 (0.150) data 0.000 (0.001) loss 8.8083 (8.6490) cls_loss 1.6967 (2.3047) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.2740 (0.1651) contrast_loss 4.2425 (4.3464) lr 1.7071e-03 eta 0:52:38
+epoch [7/20] batch [1500/1600] time 0.149 (0.150) data 0.000 (0.001) loss 8.1211 (8.6487) cls_loss 2.0195 (2.3106) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1442 (0.1643) contrast_loss 4.2711 (4.3467) lr 1.7071e-03 eta 0:52:22
+epoch [7/20] batch [1600/1600] time 0.153 (0.150) data 0.000 (0.001) loss 7.9278 (8.6360) cls_loss 1.8305 (2.3027) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1324 (0.1638) contrast_loss 4.3613 (4.3462) lr 1.5878e-03 eta 0:52:03
+epoch [8/20] batch [100/1600] time 0.155 (0.155) data 0.000 (0.005) loss 8.5161 (8.5115) cls_loss 2.1536 (2.2361) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1766 (0.1577) contrast_loss 4.2725 (4.3370) lr 1.5878e-03 eta 0:53:23
+epoch [8/20] batch [200/1600] time 0.154 (0.153) data 0.000 (0.003) loss 11.2760 (8.5943) cls_loss 4.8439 (2.2927) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1459 (0.1598) contrast_loss 4.5878 (4.3463) lr 1.5878e-03 eta 0:52:23
+epoch [8/20] batch [300/1600] time 0.147 (0.152) data 0.000 (0.002) loss 8.7416 (8.6217) cls_loss 2.1404 (2.3147) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.2020 (0.1606) contrast_loss 4.3084 (4.3451) lr 1.5878e-03 eta 0:51:54
+epoch [8/20] batch [400/1600] time 0.152 (0.152) data 0.000 (0.002) loss 7.8250 (8.6737) cls_loss 1.9624 (2.3441) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1007 (0.1630) contrast_loss 4.3797 (4.3484) lr 1.5878e-03 eta 0:51:30
+epoch [8/20] batch [500/1600] time 0.147 (0.151) data 0.000 (0.001) loss 8.2649 (8.6402) cls_loss 2.1518 (2.3041) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1477 (0.1639) contrast_loss 4.2547 (4.3477) lr 1.5878e-03 eta 0:51:08
+epoch [8/20] batch [600/1600] time 0.147 (0.151) data 0.001 (0.001) loss 7.3818 (8.6466) cls_loss 1.4609 (2.3211) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1218 (0.1625) contrast_loss 4.2696 (4.3484) lr 1.5878e-03 eta 0:50:44
+epoch [8/20] batch [700/1600] time 0.153 (0.151) data 0.000 (0.001) loss 7.6955 (8.6311) cls_loss 1.6906 (2.3209) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1316 (0.1606) contrast_loss 4.2755 (4.3484) lr 1.5878e-03 eta 0:50:26
+epoch [8/20] batch [800/1600] time 0.162 (0.151) data 0.000 (0.001) loss 8.2457 (8.6312) cls_loss 1.9220 (2.3175) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1707 (0.1612) contrast_loss 4.2815 (4.3473) lr 1.5878e-03 eta 0:50:11
+epoch [8/20] batch [900/1600] time 0.159 (0.150) data 0.000 (0.001) loss 11.9781 (8.6185) cls_loss 5.4191 (2.3064) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1690 (0.1611) contrast_loss 4.5301 (4.3463) lr 1.5878e-03 eta 0:49:53
+epoch [8/20] batch [1000/1600] time 0.145 (0.150) data 0.000 (0.001) loss 9.9664 (8.6096) cls_loss 3.5651 (2.2942) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1614 (0.1617) contrast_loss 4.4334 (4.3449) lr 1.5878e-03 eta 0:49:35
+epoch [8/20] batch [1100/1600] time 0.147 (0.150) data 0.000 (0.001) loss 7.9999 (8.5887) cls_loss 1.8585 (2.2789) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1430 (0.1611) contrast_loss 4.3206 (4.3444) lr 1.5878e-03 eta 0:49:19
+epoch [8/20] batch [1200/1600] time 0.149 (0.150) data 0.000 (0.001) loss 12.1900 (8.5858) cls_loss 5.7371 (2.2738) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1500 (0.1613) contrast_loss 4.5762 (4.3444) lr 1.5878e-03 eta 0:49:04
+epoch [8/20] batch [1300/1600] time 0.147 (0.150) data 0.000 (0.001) loss 8.5167 (8.6153) cls_loss 2.3252 (2.2976) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1395 (0.1618) contrast_loss 4.3981 (4.3461) lr 1.5878e-03 eta 0:48:47
+epoch [8/20] batch [1400/1600] time 0.149 (0.150) data 0.000 (0.001) loss 8.8977 (8.6018) cls_loss 2.2311 (2.2828) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.2017 (0.1621) contrast_loss 4.3763 (4.3451) lr 1.5878e-03 eta 0:48:32
+epoch [8/20] batch [1500/1600] time 0.153 (0.150) data 0.000 (0.001) loss 7.8458 (8.5912) cls_loss 1.5082 (2.2727) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1682 (0.1622) contrast_loss 4.3152 (4.3443) lr 1.5878e-03 eta 0:48:12
+epoch [8/20] batch [1600/1600] time 0.145 (0.150) data 0.000 (0.001) loss 7.9282 (8.5807) cls_loss 2.1171 (2.2684) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1026 (0.1613) contrast_loss 4.3131 (4.3448) lr 1.4540e-03 eta 0:47:57
+epoch [9/20] batch [100/1600] time 0.160 (0.156) data 0.000 (0.005) loss 7.6132 (8.5606) cls_loss 1.7530 (2.2605) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.0891 (0.1585) contrast_loss 4.4704 (4.3549) lr 1.4540e-03 eta 0:49:36
+epoch [9/20] batch [200/1600] time 0.151 (0.153) data 0.000 (0.003) loss 8.4680 (8.5879) cls_loss 1.6994 (2.2794) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.2145 (0.1592) contrast_loss 4.3756 (4.3579) lr 1.4540e-03 eta 0:48:31
+epoch [9/20] batch [300/1600] time 0.161 (0.152) data 0.000 (0.002) loss 10.4504 (8.4672) cls_loss 3.4744 (2.1579) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.2240 (0.1607) contrast_loss 4.5067 (4.3467) lr 1.4540e-03 eta 0:47:54
+epoch [9/20] batch [400/1600] time 0.147 (0.151) data 0.001 (0.002) loss 10.7420 (8.4061) cls_loss 4.2157 (2.1098) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1649 (0.1597) contrast_loss 4.5302 (4.3417) lr 1.4540e-03 eta 0:47:27
+epoch [9/20] batch [500/1600] time 0.152 (0.151) data 0.000 (0.001) loss 8.5085 (8.4655) cls_loss 1.8201 (2.1494) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.2141 (0.1619) contrast_loss 4.2990 (4.3437) lr 1.4540e-03 eta 0:47:05
+epoch [9/20] batch [600/1600] time 0.148 (0.151) data 0.000 (0.001) loss 7.1027 (8.5135) cls_loss 1.3309 (2.1862) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.0887 (0.1630) contrast_loss 4.3855 (4.3467) lr 1.4540e-03 eta 0:46:45
+epoch [9/20] batch [700/1600] time 0.142 (0.151) data 0.001 (0.001) loss 8.0238 (8.5033) cls_loss 1.6322 (2.1873) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1819 (0.1616) contrast_loss 4.2591 (4.3465) lr 1.4540e-03 eta 0:46:27
+epoch [9/20] batch [800/1600] time 0.150 (0.151) data 0.005 (0.001) loss 7.7169 (8.4724) cls_loss 1.8287 (2.1631) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1109 (0.1609) contrast_loss 4.3240 (4.3450) lr 1.4540e-03 eta 0:46:10
+epoch [9/20] batch [900/1600] time 0.143 (0.150) data 0.000 (0.001) loss 13.4569 (8.4475) cls_loss 6.7069 (2.1405) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.2021 (0.1608) contrast_loss 4.4566 (4.3435) lr 1.4540e-03 eta 0:45:53
+epoch [9/20] batch [1000/1600] time 0.151 (0.150) data 0.000 (0.001) loss 7.5681 (8.4537) cls_loss 1.4226 (2.1396) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1467 (0.1617) contrast_loss 4.2947 (4.3434) lr 1.4540e-03 eta 0:45:37
+epoch [9/20] batch [1100/1600] time 0.147 (0.150) data 0.000 (0.001) loss 8.0276 (8.4435) cls_loss 1.7892 (2.1333) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1502 (0.1612) contrast_loss 4.3599 (4.3437) lr 1.4540e-03 eta 0:45:21
+epoch [9/20] batch [1200/1600] time 0.149 (0.150) data 0.000 (0.001) loss 6.8646 (8.4312) cls_loss 1.0964 (2.1288) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.0975 (0.1601) contrast_loss 4.3112 (4.3443) lr 1.4540e-03 eta 0:45:05
+epoch [9/20] batch [1300/1600] time 0.107 (0.150) data 0.000 (0.001) loss 9.2677 (8.4293) cls_loss 2.7110 (2.1307) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1838 (0.1596) contrast_loss 4.4091 (4.3449) lr 1.4540e-03 eta 0:44:44
+epoch [9/20] batch [1400/1600] time 0.152 (0.150) data 0.001 (0.001) loss 8.5385 (8.4216) cls_loss 2.2018 (2.1243) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1712 (0.1594) contrast_loss 4.2899 (4.3450) lr 1.4540e-03 eta 0:44:28
+epoch [9/20] batch [1500/1600] time 0.148 (0.150) data 0.000 (0.001) loss 8.1735 (8.4210) cls_loss 1.9375 (2.1245) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1481 (0.1593) contrast_loss 4.3739 (4.3455) lr 1.4540e-03 eta 0:44:12
+epoch [9/20] batch [1600/1600] time 0.143 (0.150) data 0.000 (0.001) loss 6.8773 (8.4155) cls_loss 0.9803 (2.1209) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1080 (0.1590) contrast_loss 4.3560 (4.3455) lr 1.3090e-03 eta 0:43:58
+epoch [10/20] batch [100/1600] time 0.153 (0.154) data 0.000 (0.004) loss 7.1799 (8.2458) cls_loss 1.3146 (1.9874) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1148 (0.1547) contrast_loss 4.2701 (4.3440) lr 1.3090e-03 eta 0:44:56
+epoch [10/20] batch [200/1600] time 0.148 (0.153) data 0.000 (0.002) loss 8.0345 (8.1968) cls_loss 1.8070 (1.9343) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1593 (0.1555) contrast_loss 4.2761 (4.3418) lr 1.3090e-03 eta 0:44:14
+epoch [10/20] batch [300/1600] time 0.153 (0.152) data 0.000 (0.002) loss 7.0016 (8.1657) cls_loss 1.2300 (1.9202) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.0925 (0.1533) contrast_loss 4.3545 (4.3423) lr 1.3090e-03 eta 0:43:48
+epoch [10/20] batch [400/1600] time 0.145 (0.151) data 0.000 (0.001) loss 7.5871 (8.2544) cls_loss 1.2950 (1.9796) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1609 (0.1566) contrast_loss 4.3276 (4.3450) lr 1.3090e-03 eta 0:43:24
+epoch [10/20] batch [500/1600] time 0.157 (0.151) data 0.000 (0.001) loss 8.1004 (8.2598) cls_loss 1.9023 (1.9804) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1430 (0.1571) contrast_loss 4.3773 (4.3455) lr 1.3090e-03 eta 0:43:05
+epoch [10/20] batch [600/1600] time 0.147 (0.151) data 0.000 (0.001) loss 8.4204 (8.2490) cls_loss 1.7883 (1.9642) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.2088 (0.1580) contrast_loss 4.2850 (4.3443) lr 1.3090e-03 eta 0:42:46
+epoch [10/20] batch [700/1600] time 0.145 (0.151) data 0.000 (0.001) loss 8.5472 (8.1967) cls_loss 1.4218 (1.9246) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.2715 (0.1566) contrast_loss 4.2764 (4.3427) lr 1.3090e-03 eta 0:42:28
+epoch [10/20] batch [800/1600] time 0.152 (0.151) data 0.000 (0.001) loss 9.0454 (8.1877) cls_loss 2.9083 (1.9215) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1320 (0.1557) contrast_loss 4.4039 (4.3436) lr 1.3090e-03 eta 0:42:12
+epoch [10/20] batch [900/1600] time 0.155 (0.151) data 0.000 (0.001) loss 8.0780 (8.1724) cls_loss 1.8269 (1.9098) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1590 (0.1553) contrast_loss 4.3023 (4.3436) lr 1.3090e-03 eta 0:41:53
+epoch [10/20] batch [1000/1600] time 0.151 (0.151) data 0.000 (0.001) loss 7.1692 (8.1378) cls_loss 1.0519 (1.8819) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1439 (0.1545) contrast_loss 4.2890 (4.3430) lr 1.3090e-03 eta 0:41:38
+epoch [10/20] batch [1100/1600] time 0.145 (0.151) data 0.000 (0.001) loss 7.6604 (8.1181) cls_loss 1.3416 (1.8631) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1619 (0.1544) contrast_loss 4.3464 (4.3430) lr 1.3090e-03 eta 0:41:23
+epoch [10/20] batch [1200/1600] time 0.151 (0.150) data 0.000 (0.001) loss 8.8626 (8.0869) cls_loss 2.3262 (1.8374) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1901 (0.1537) contrast_loss 4.3390 (4.3428) lr 1.3090e-03 eta 0:41:04
+epoch [10/20] batch [1300/1600] time 0.149 (0.150) data 0.000 (0.001) loss 9.8780 (8.0727) cls_loss 3.1480 (1.8213) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.2031 (0.1541) contrast_loss 4.4286 (4.3415) lr 1.3090e-03 eta 0:40:48
+epoch [10/20] batch [1400/1600] time 0.147 (0.150) data 0.000 (0.001) loss 10.4067 (8.0658) cls_loss 3.9331 (1.8155) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1566 (0.1540) contrast_loss 4.5440 (4.3415) lr 1.3090e-03 eta 0:40:33
+epoch [10/20] batch [1500/1600] time 0.156 (0.150) data 0.002 (0.001) loss 7.5999 (8.0763) cls_loss 1.3108 (1.8249) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1501 (0.1539) contrast_loss 4.4114 (4.3429) lr 1.3090e-03 eta 0:40:17
+epoch [10/20] batch [1600/1600] time 0.150 (0.150) data 0.000 (0.001) loss 7.7877 (8.0891) cls_loss 1.8701 (1.8346) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1170 (0.1543) contrast_loss 4.3049 (4.3429) lr 1.1564e-03 eta 0:40:02
+epoch [11/20] batch [100/1600] time 0.137 (0.154) data 0.000 (0.005) loss 8.0238 (7.8043) cls_loss 1.4569 (1.6358) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1817 (0.1444) contrast_loss 4.4362 (4.3367) lr 1.1564e-03 eta 0:40:50
+epoch [11/20] batch [200/1600] time 0.150 (0.152) data 0.000 (0.003) loss 7.4134 (7.9030) cls_loss 1.4500 (1.6988) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1216 (0.1485) contrast_loss 4.3137 (4.3394) lr 1.1564e-03 eta 0:40:05
+epoch [11/20] batch [300/1600] time 0.153 (0.152) data 0.000 (0.002) loss 7.6558 (7.8183) cls_loss 1.3101 (1.6144) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1714 (0.1487) contrast_loss 4.2973 (4.3376) lr 1.1564e-03 eta 0:39:41
+epoch [11/20] batch [400/1600] time 0.153 (0.151) data 0.000 (0.002) loss 7.2765 (7.7580) cls_loss 1.1745 (1.5584) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1352 (0.1483) contrast_loss 4.3436 (4.3363) lr 1.1564e-03 eta 0:39:21
+epoch [11/20] batch [500/1600] time 0.149 (0.151) data 0.000 (0.001) loss 6.4893 (7.7024) cls_loss 0.5293 (1.5120) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1267 (0.1476) contrast_loss 4.2694 (4.3330) lr 1.1564e-03 eta 0:39:03
+epoch [11/20] batch [600/1600] time 0.151 (0.151) data 0.000 (0.001) loss 8.0057 (7.6464) cls_loss 1.7481 (1.4611) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1414 (0.1473) contrast_loss 4.4497 (4.3296) lr 1.1564e-03 eta 0:38:46
+epoch [11/20] batch [700/1600] time 0.147 (0.151) data 0.000 (0.001) loss 14.3080 (7.6455) cls_loss 7.0173 (1.4606) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.2548 (0.1472) contrast_loss 4.5752 (4.3307) lr 1.1564e-03 eta 0:38:29
+epoch [11/20] batch [800/1600] time 0.156 (0.151) data 0.000 (0.001) loss 9.3668 (7.6288) cls_loss 3.1775 (1.4474) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1383 (0.1468) contrast_loss 4.4062 (4.3303) lr 1.1564e-03 eta 0:38:11
+epoch [11/20] batch [900/1600] time 0.147 (0.151) data 0.000 (0.001) loss 6.6293 (7.6237) cls_loss 0.7820 (1.4415) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1142 (0.1468) contrast_loss 4.2569 (4.3307) lr 1.1564e-03 eta 0:37:56
+epoch [11/20] batch [1000/1600] time 0.156 (0.151) data 0.000 (0.001) loss 7.1806 (7.6208) cls_loss 0.7905 (1.4377) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1758 (0.1471) contrast_loss 4.3065 (4.3293) lr 1.1564e-03 eta 0:37:42
+epoch [11/20] batch [1100/1600] time 0.145 (0.150) data 0.000 (0.001) loss 7.3987 (7.6179) cls_loss 1.5325 (1.4387) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1100 (0.1466) contrast_loss 4.3089 (4.3290) lr 1.1564e-03 eta 0:37:14
+epoch [11/20] batch [1200/1600] time 0.172 (0.150) data 0.000 (0.001) loss 7.0480 (7.6064) cls_loss 1.1785 (1.4312) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1154 (0.1462) contrast_loss 4.2691 (4.3287) lr 1.1564e-03 eta 0:37:02
+epoch [11/20] batch [1300/1600] time 0.149 (0.150) data 0.005 (0.001) loss 7.4576 (7.5978) cls_loss 1.1616 (1.4270) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1552 (0.1457) contrast_loss 4.3777 (4.3286) lr 1.1564e-03 eta 0:36:49
+epoch [11/20] batch [1400/1600] time 0.151 (0.150) data 0.000 (0.001) loss 6.8146 (7.5904) cls_loss 0.9166 (1.4179) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1134 (0.1459) contrast_loss 4.3139 (4.3283) lr 1.1564e-03 eta 0:36:33
+epoch [11/20] batch [1500/1600] time 0.148 (0.150) data 0.000 (0.001) loss 7.1949 (7.6059) cls_loss 1.2924 (1.4308) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1162 (0.1461) contrast_loss 4.2963 (4.3290) lr 1.1564e-03 eta 0:36:18
+epoch [11/20] batch [1600/1600] time 0.148 (0.150) data 0.000 (0.001) loss 15.2907 (7.5962) cls_loss 7.8891 (1.4222) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.2723 (0.1460) contrast_loss 4.5465 (4.3290) lr 1.0000e-03 eta 0:36:03
+epoch [12/20] batch [100/1600] time 0.153 (0.154) data 0.000 (0.004) loss 6.3718 (7.4491) cls_loss 0.6533 (1.2753) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.0908 (0.1459) contrast_loss 4.3154 (4.3299) lr 1.0000e-03 eta 0:36:35
+epoch [12/20] batch [200/1600] time 0.147 (0.152) data 0.000 (0.002) loss 7.1134 (7.5583) cls_loss 0.8358 (1.3812) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1685 (0.1456) contrast_loss 4.2523 (4.3356) lr 1.0000e-03 eta 0:35:56
+epoch [12/20] batch [300/1600] time 0.148 (0.151) data 0.000 (0.002) loss 8.2163 (7.6475) cls_loss 2.1503 (1.4447) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1292 (0.1485) contrast_loss 4.3557 (4.3376) lr 1.0000e-03 eta 0:35:32
+epoch [12/20] batch [400/1600] time 0.149 (0.151) data 0.006 (0.001) loss 8.9682 (7.6204) cls_loss 2.3072 (1.4342) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1909 (0.1466) contrast_loss 4.4565 (4.3362) lr 1.0000e-03 eta 0:35:09
+epoch [12/20] batch [500/1600] time 0.153 (0.151) data 0.000 (0.001) loss 8.1534 (7.6500) cls_loss 1.5917 (1.4698) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1906 (0.1456) contrast_loss 4.3598 (4.3381) lr 1.0000e-03 eta 0:34:54
+epoch [12/20] batch [600/1600] time 0.151 (0.151) data 0.000 (0.001) loss 7.9889 (7.6965) cls_loss 2.0284 (1.5067) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1203 (0.1467) contrast_loss 4.3207 (4.3395) lr 1.0000e-03 eta 0:34:38
+epoch [12/20] batch [700/1600] time 0.147 (0.150) data 0.000 (0.001) loss 5.8386 (7.6745) cls_loss 0.1033 (1.4890) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.0959 (0.1461) contrast_loss 4.2907 (4.3398) lr 1.0000e-03 eta 0:34:20
+epoch [12/20] batch [800/1600] time 0.156 (0.150) data 0.000 (0.001) loss 7.1535 (7.6590) cls_loss 0.9564 (1.4798) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1444 (0.1454) contrast_loss 4.3650 (4.3392) lr 1.0000e-03 eta 0:34:04
+epoch [12/20] batch [900/1600] time 0.148 (0.150) data 0.000 (0.001) loss 9.4469 (7.6317) cls_loss 3.5923 (1.4585) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.0927 (0.1448) contrast_loss 4.4358 (4.3380) lr 1.0000e-03 eta 0:33:44
+epoch [12/20] batch [1000/1600] time 0.146 (0.150) data 0.000 (0.001) loss 7.3062 (7.5961) cls_loss 1.1889 (1.4344) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1445 (0.1434) contrast_loss 4.2841 (4.3379) lr 1.0000e-03 eta 0:33:28
+epoch [12/20] batch [1100/1600] time 0.147 (0.150) data 0.000 (0.001) loss 6.9614 (7.5720) cls_loss 1.2464 (1.4146) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.0836 (0.1430) contrast_loss 4.3693 (4.3367) lr 1.0000e-03 eta 0:33:13
+epoch [12/20] batch [1200/1600] time 0.151 (0.150) data 0.000 (0.001) loss 6.4297 (7.5381) cls_loss 0.3331 (1.3857) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1419 (0.1425) contrast_loss 4.2844 (4.3350) lr 1.0000e-03 eta 0:32:59
+epoch [12/20] batch [1300/1600] time 0.148 (0.150) data 0.000 (0.001) loss 6.6733 (7.5370) cls_loss 0.9269 (1.3868) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.0916 (0.1423) contrast_loss 4.3365 (4.3344) lr 1.0000e-03 eta 0:32:43
+epoch [12/20] batch [1400/1600] time 0.149 (0.150) data 0.000 (0.001) loss 6.4392 (7.5070) cls_loss 0.3215 (1.3618) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1456 (0.1418) contrast_loss 4.2763 (4.3339) lr 1.0000e-03 eta 0:32:28
+epoch [12/20] batch [1500/1600] time 0.148 (0.150) data 0.000 (0.001) loss 7.2244 (7.4889) cls_loss 0.9520 (1.3501) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1698 (0.1411) contrast_loss 4.2368 (4.3331) lr 1.0000e-03 eta 0:32:13
+epoch [12/20] batch [1600/1600] time 0.145 (0.150) data 0.000 (0.001) loss 6.4648 (7.4743) cls_loss 0.2132 (1.3397) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1540 (0.1406) contrast_loss 4.3424 (4.3324) lr 8.4357e-04 eta 0:31:58
+epoch [13/20] batch [100/1600] time 0.153 (0.154) data 0.000 (0.004) loss 6.6589 (7.4932) cls_loss 0.6958 (1.3911) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1303 (0.1356) contrast_loss 4.2439 (4.3403) lr 8.4357e-04 eta 0:32:32
+epoch [13/20] batch [200/1600] time 0.149 (0.152) data 0.000 (0.002) loss 5.9779 (7.4721) cls_loss 0.3775 (1.3816) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.0748 (0.1348) contrast_loss 4.3251 (4.3352) lr 8.4357e-04 eta 0:32:00
+epoch [13/20] batch [300/1600] time 0.152 (0.151) data 0.000 (0.002) loss 6.4596 (7.3765) cls_loss 0.4270 (1.2936) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1383 (0.1339) contrast_loss 4.2496 (4.3349) lr 8.4357e-04 eta 0:31:31
+epoch [13/20] batch [400/1600] time 0.151 (0.151) data 0.000 (0.001) loss 5.7696 (7.2878) cls_loss 0.0285 (1.2011) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.0948 (0.1348) contrast_loss 4.3055 (4.3311) lr 8.4357e-04 eta 0:31:14
+epoch [13/20] batch [500/1600] time 0.144 (0.151) data 0.000 (0.001) loss 6.3274 (7.3108) cls_loss 0.4112 (1.2183) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1237 (0.1356) contrast_loss 4.2497 (4.3309) lr 8.4357e-04 eta 0:30:59
+epoch [13/20] batch [600/1600] time 0.148 (0.151) data 0.000 (0.001) loss 14.4670 (7.3128) cls_loss 7.3397 (1.2146) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.2264 (0.1365) contrast_loss 4.6390 (4.3289) lr 8.4357e-04 eta 0:30:41
+epoch [13/20] batch [700/1600] time 0.150 (0.151) data 0.000 (0.001) loss 7.5094 (7.2764) cls_loss 0.4013 (1.1820) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.2789 (0.1364) contrast_loss 4.1995 (4.3261) lr 8.4357e-04 eta 0:30:24
+epoch [13/20] batch [800/1600] time 0.145 (0.150) data 0.000 (0.001) loss 6.3159 (7.2334) cls_loss 0.3892 (1.1478) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1176 (0.1354) contrast_loss 4.3088 (4.3251) lr 8.4357e-04 eta 0:30:05
+epoch [13/20] batch [900/1600] time 0.147 (0.150) data 0.000 (0.001) loss 6.2691 (7.2365) cls_loss 0.4355 (1.1566) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1080 (0.1347) contrast_loss 4.2930 (4.3250) lr 8.4357e-04 eta 0:29:48
+epoch [13/20] batch [1000/1600] time 0.148 (0.150) data 0.000 (0.001) loss 5.6356 (7.2461) cls_loss 0.1139 (1.1626) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.0667 (0.1351) contrast_loss 4.3113 (4.3256) lr 8.4357e-04 eta 0:29:32
+epoch [13/20] batch [1100/1600] time 0.145 (0.150) data 0.000 (0.001) loss 7.0544 (7.2503) cls_loss 1.1571 (1.1677) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1095 (0.1349) contrast_loss 4.3443 (4.3262) lr 8.4357e-04 eta 0:29:17
+epoch [13/20] batch [1200/1600] time 0.147 (0.150) data 0.000 (0.001) loss 8.0206 (7.2431) cls_loss 2.2835 (1.1640) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.0946 (0.1345) contrast_loss 4.3037 (4.3260) lr 8.4357e-04 eta 0:29:01
+epoch [13/20] batch [1300/1600] time 0.140 (0.150) data 0.000 (0.001) loss 6.1843 (7.2335) cls_loss 0.0894 (1.1553) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1429 (0.1344) contrast_loss 4.2746 (4.3256) lr 8.4357e-04 eta 0:28:46
+epoch [13/20] batch [1400/1600] time 0.147 (0.150) data 0.000 (0.001) loss 8.1618 (7.2257) cls_loss 2.1072 (1.1461) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1203 (0.1347) contrast_loss 4.4153 (4.3253) lr 8.4357e-04 eta 0:28:30
+epoch [13/20] batch [1500/1600] time 0.147 (0.150) data 0.000 (0.001) loss 7.1820 (7.2080) cls_loss 1.0201 (1.1320) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1317 (0.1343) contrast_loss 4.4311 (4.3245) lr 8.4357e-04 eta 0:28:16
+epoch [13/20] batch [1600/1600] time 0.148 (0.150) data 0.000 (0.001) loss 12.5317 (7.1984) cls_loss 5.9087 (1.1219) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1722 (0.1345) contrast_loss 4.5681 (4.3237) lr 6.9098e-04 eta 0:28:01
+epoch [14/20] batch [100/1600] time 0.158 (0.155) data 0.000 (0.005) loss 6.6719 (6.6997) cls_loss 0.6569 (0.6920) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1313 (0.1283) contrast_loss 4.2873 (4.3039) lr 6.9098e-04 eta 0:28:36
+epoch [14/20] batch [200/1600] time 0.145 (0.152) data 0.000 (0.002) loss 7.4814 (6.8857) cls_loss 0.4206 (0.8778) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.2729 (0.1275) contrast_loss 4.2005 (4.3108) lr 6.9098e-04 eta 0:27:53
+epoch [14/20] batch [300/1600] time 0.149 (0.151) data 0.000 (0.002) loss 6.4599 (6.9780) cls_loss 0.3341 (0.9423) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1326 (0.1311) contrast_loss 4.3880 (4.3102) lr 6.9098e-04 eta 0:27:28
+epoch [14/20] batch [400/1600] time 0.147 (0.151) data 0.000 (0.001) loss 6.6430 (6.9609) cls_loss 0.6377 (0.9319) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1308 (0.1300) contrast_loss 4.2819 (4.3124) lr 6.9098e-04 eta 0:27:11
+epoch [14/20] batch [500/1600] time 0.151 (0.151) data 0.000 (0.001) loss 6.8311 (6.9505) cls_loss 0.9960 (0.9319) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1070 (0.1285) contrast_loss 4.3025 (4.3138) lr 6.9098e-04 eta 0:26:54
+epoch [14/20] batch [600/1600] time 0.142 (0.150) data 0.000 (0.001) loss 7.4204 (6.9558) cls_loss 1.5534 (0.9324) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1066 (0.1290) contrast_loss 4.3369 (4.3145) lr 6.9098e-04 eta 0:26:33
+epoch [14/20] batch [700/1600] time 0.149 (0.150) data 0.000 (0.001) loss 6.5915 (6.9812) cls_loss 0.4691 (0.9533) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1512 (0.1295) contrast_loss 4.2359 (4.3152) lr 6.9098e-04 eta 0:26:17
+epoch [14/20] batch [800/1600] time 0.152 (0.150) data 0.000 (0.001) loss 5.7781 (6.9677) cls_loss 0.0890 (0.9412) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.0960 (0.1294) contrast_loss 4.2438 (4.3142) lr 6.9098e-04 eta 0:26:02
+epoch [14/20] batch [900/1600] time 0.145 (0.150) data 0.000 (0.001) loss 6.4751 (6.9653) cls_loss 0.8598 (0.9408) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.0775 (0.1293) contrast_loss 4.3183 (4.3135) lr 6.9098e-04 eta 0:25:47
+epoch [14/20] batch [1000/1600] time 0.147 (0.150) data 0.000 (0.001) loss 5.9793 (6.9249) cls_loss 0.0762 (0.9122) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1174 (0.1279) contrast_loss 4.2869 (4.3123) lr 6.9098e-04 eta 0:25:31
+epoch [14/20] batch [1100/1600] time 0.145 (0.150) data 0.000 (0.001) loss 6.7979 (6.9318) cls_loss 0.6527 (0.9139) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1543 (0.1287) contrast_loss 4.2342 (4.3116) lr 6.9098e-04 eta 0:25:16
+epoch [14/20] batch [1200/1600] time 0.143 (0.150) data 0.000 (0.001) loss 13.5827 (6.9473) cls_loss 6.1042 (0.9297) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.2800 (0.1285) contrast_loss 4.5614 (4.3130) lr 6.9098e-04 eta 0:24:57
+epoch [14/20] batch [1300/1600] time 0.147 (0.150) data 0.000 (0.001) loss 5.9688 (6.9524) cls_loss 0.3482 (0.9353) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.0866 (0.1285) contrast_loss 4.2512 (4.3125) lr 6.9098e-04 eta 0:24:43
+epoch [14/20] batch [1400/1600] time 0.151 (0.150) data 0.000 (0.001) loss 5.9623 (6.9876) cls_loss 0.3791 (0.9652) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.0743 (0.1289) contrast_loss 4.3117 (4.3142) lr 6.9098e-04 eta 0:24:28
+epoch [14/20] batch [1500/1600] time 0.147 (0.150) data 0.000 (0.001) loss 6.0712 (6.9869) cls_loss 0.3922 (0.9620) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.0773 (0.1293) contrast_loss 4.3839 (4.3134) lr 6.9098e-04 eta 0:24:13
+epoch [14/20] batch [1600/1600] time 0.145 (0.150) data 0.000 (0.001) loss 7.2280 (6.9892) cls_loss 1.0765 (0.9646) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1453 (0.1293) contrast_loss 4.3122 (4.3131) lr 5.4601e-04 eta 0:23:58
+epoch [15/20] batch [100/1600] time 0.148 (0.155) data 0.000 (0.004) loss 6.0027 (7.1403) cls_loss 0.0756 (1.0896) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1207 (0.1316) contrast_loss 4.2847 (4.3205) lr 5.4601e-04 eta 0:24:31
+epoch [15/20] batch [200/1600] time 0.156 (0.152) data 0.000 (0.002) loss 6.1691 (6.9167) cls_loss 0.0114 (0.9051) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1564 (0.1273) contrast_loss 4.2296 (4.3160) lr 5.4601e-04 eta 0:23:49
+epoch [15/20] batch [300/1600] time 0.148 (0.151) data 0.000 (0.002) loss 6.5836 (6.8306) cls_loss 0.5038 (0.8321) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1389 (0.1261) contrast_loss 4.2915 (4.3128) lr 5.4601e-04 eta 0:23:26
+epoch [15/20] batch [400/1600] time 0.149 (0.151) data 0.000 (0.001) loss 6.6420 (6.7752) cls_loss 0.7060 (0.7734) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1199 (0.1272) contrast_loss 4.3001 (4.3076) lr 5.4601e-04 eta 0:23:07
+epoch [15/20] batch [500/1600] time 0.145 (0.150) data 0.000 (0.001) loss 6.0563 (6.8215) cls_loss 0.3995 (0.8288) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.0909 (0.1259) contrast_loss 4.2526 (4.3086) lr 5.4601e-04 eta 0:22:45
+epoch [15/20] batch [600/1600] time 0.148 (0.150) data 0.000 (0.001) loss 6.0755 (6.8266) cls_loss 0.0286 (0.8259) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1305 (0.1268) contrast_loss 4.3258 (4.3095) lr 5.4601e-04 eta 0:22:30
+epoch [15/20] batch [700/1600] time 0.149 (0.150) data 0.000 (0.001) loss 6.1191 (6.8467) cls_loss 0.4396 (0.8491) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.0807 (0.1262) contrast_loss 4.3566 (4.3112) lr 5.4601e-04 eta 0:22:14
+epoch [15/20] batch [800/1600] time 0.154 (0.150) data 0.000 (0.001) loss 7.9555 (6.8628) cls_loss 1.3086 (0.8682) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.2032 (0.1257) contrast_loss 4.3444 (4.3122) lr 5.4601e-04 eta 0:21:59
+epoch [15/20] batch [900/1600] time 0.147 (0.150) data 0.000 (0.001) loss 6.5363 (6.8477) cls_loss 0.4344 (0.8564) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1450 (0.1253) contrast_loss 4.2651 (4.3116) lr 5.4601e-04 eta 0:21:44
+epoch [15/20] batch [1000/1600] time 0.145 (0.150) data 0.000 (0.001) loss 6.1952 (6.8498) cls_loss 0.0835 (0.8607) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1334 (0.1251) contrast_loss 4.3676 (4.3117) lr 5.4601e-04 eta 0:21:28
+epoch [15/20] batch [1100/1600] time 0.147 (0.150) data 0.000 (0.001) loss 6.9927 (6.8643) cls_loss 0.8185 (0.8745) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1515 (0.1252) contrast_loss 4.2852 (4.3116) lr 5.4601e-04 eta 0:21:14
+epoch [15/20] batch [1200/1600] time 0.147 (0.150) data 0.000 (0.001) loss 6.6290 (6.8630) cls_loss 0.3364 (0.8770) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1713 (0.1247) contrast_loss 4.2451 (4.3113) lr 5.4601e-04 eta 0:20:59
+epoch [15/20] batch [1300/1600] time 0.148 (0.150) data 0.000 (0.001) loss 5.6512 (6.8415) cls_loss 0.0632 (0.8599) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.0862 (0.1243) contrast_loss 4.2215 (4.3104) lr 5.4601e-04 eta 0:20:44
+epoch [15/20] batch [1400/1600] time 0.155 (0.150) data 0.000 (0.001) loss 6.2740 (6.8539) cls_loss 0.2283 (0.8689) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1369 (0.1247) contrast_loss 4.2738 (4.3106) lr 5.4601e-04 eta 0:20:29
+epoch [15/20] batch [1500/1600] time 0.147 (0.150) data 0.000 (0.001) loss 5.6677 (6.8532) cls_loss 0.1823 (0.8683) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.0713 (0.1248) contrast_loss 4.2384 (4.3096) lr 5.4601e-04 eta 0:20:14
+epoch [15/20] batch [1600/1600] time 0.151 (0.150) data 0.000 (0.001) loss 5.8787 (6.8566) cls_loss 0.2619 (0.8717) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.0807 (0.1247) contrast_loss 4.2943 (4.3101) lr 4.1221e-04 eta 0:19:59
+epoch [16/20] batch [100/1600] time 0.149 (0.155) data 0.000 (0.004) loss 5.6820 (6.5956) cls_loss 0.0594 (0.6427) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.0893 (0.1218) contrast_loss 4.2314 (4.3017) lr 4.1221e-04 eta 0:20:21
+epoch [16/20] batch [200/1600] time 0.145 (0.153) data 0.000 (0.002) loss 6.6945 (6.6032) cls_loss 1.1842 (0.6721) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.0533 (0.1190) contrast_loss 4.4067 (4.3017) lr 4.1221e-04 eta 0:19:50
+epoch [16/20] batch [300/1600] time 0.148 (0.151) data 0.000 (0.002) loss 6.9727 (6.6291) cls_loss 0.4742 (0.6996) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.2027 (0.1188) contrast_loss 4.1997 (4.3019) lr 4.1221e-04 eta 0:19:22
+epoch [16/20] batch [400/1600] time 0.145 (0.151) data 0.000 (0.001) loss 6.3935 (6.6806) cls_loss 0.5299 (0.7351) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1209 (0.1207) contrast_loss 4.2191 (4.3030) lr 4.1221e-04 eta 0:19:04
+epoch [16/20] batch [500/1600] time 0.148 (0.150) data 0.000 (0.001) loss 5.5942 (6.6390) cls_loss 0.0719 (0.6986) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.0770 (0.1203) contrast_loss 4.2296 (4.3009) lr 4.1221e-04 eta 0:18:47
+epoch [16/20] batch [600/1600] time 0.154 (0.150) data 0.000 (0.001) loss 5.7152 (6.6128) cls_loss 0.3508 (0.6766) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.0556 (0.1199) contrast_loss 4.2425 (4.3001) lr 4.1221e-04 eta 0:18:32
+epoch [16/20] batch [700/1600] time 0.151 (0.150) data 0.000 (0.001) loss 5.9185 (6.6163) cls_loss 0.3712 (0.6835) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.0789 (0.1194) contrast_loss 4.2392 (4.3006) lr 4.1221e-04 eta 0:18:17
+epoch [16/20] batch [800/1600] time 0.150 (0.150) data 0.000 (0.001) loss 5.5192 (6.6370) cls_loss 0.0208 (0.6950) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.0595 (0.1203) contrast_loss 4.3456 (4.3023) lr 4.1221e-04 eta 0:18:01
+epoch [16/20] batch [900/1600] time 0.149 (0.150) data 0.000 (0.001) loss 6.7836 (6.6115) cls_loss 1.0192 (0.6788) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.0994 (0.1194) contrast_loss 4.2923 (4.3008) lr 4.1221e-04 eta 0:17:47
+epoch [16/20] batch [1000/1600] time 0.158 (0.150) data 0.000 (0.001) loss 6.9894 (6.6523) cls_loss 0.6407 (0.7165) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1679 (0.1196) contrast_loss 4.3282 (4.3023) lr 4.1221e-04 eta 0:17:32
+epoch [16/20] batch [1100/1600] time 0.147 (0.150) data 0.000 (0.001) loss 6.0016 (6.6529) cls_loss 0.0356 (0.7202) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1278 (0.1192) contrast_loss 4.2667 (4.3024) lr 4.1221e-04 eta 0:17:17
+epoch [16/20] batch [1200/1600] time 0.154 (0.150) data 0.000 (0.001) loss 6.7889 (6.6849) cls_loss 1.0634 (0.7452) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.0880 (0.1199) contrast_loss 4.3448 (4.3036) lr 4.1221e-04 eta 0:17:02
+epoch [16/20] batch [1300/1600] time 0.147 (0.150) data 0.000 (0.001) loss 6.2870 (6.6677) cls_loss 0.3905 (0.7360) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1287 (0.1189) contrast_loss 4.1897 (4.3036) lr 4.1221e-04 eta 0:16:46
+epoch [16/20] batch [1400/1600] time 0.162 (0.150) data 0.000 (0.001) loss 6.6175 (6.6639) cls_loss 0.7358 (0.7297) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1184 (0.1192) contrast_loss 4.2577 (4.3033) lr 4.1221e-04 eta 0:16:31
+epoch [16/20] batch [1500/1600] time 0.145 (0.150) data 0.000 (0.001) loss 6.3489 (6.6574) cls_loss 0.7486 (0.7228) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.0868 (0.1193) contrast_loss 4.2290 (4.3029) lr 4.1221e-04 eta 0:16:16
+epoch [16/20] batch [1600/1600] time 0.147 (0.150) data 0.000 (0.001) loss 6.4097 (6.6525) cls_loss 0.6169 (0.7207) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.0983 (0.1190) contrast_loss 4.3294 (4.3028) lr 2.9289e-04 eta 0:16:01
+epoch [17/20] batch [100/1600] time 0.147 (0.155) data 0.000 (0.004) loss 13.0718 (6.7518) cls_loss 4.6815 (0.7882) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.4132 (0.1228) contrast_loss 4.4077 (4.3042) lr 2.9289e-04 eta 0:16:13
+epoch [17/20] batch [200/1600] time 0.149 (0.151) data 0.000 (0.002) loss 6.7737 (6.6951) cls_loss 0.3516 (0.7246) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1769 (0.1241) contrast_loss 4.3300 (4.3010) lr 2.9289e-04 eta 0:15:35
+epoch [17/20] batch [300/1600] time 0.149 (0.150) data 0.000 (0.002) loss 5.8815 (6.7924) cls_loss 0.2288 (0.8303) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.0916 (0.1225) contrast_loss 4.2433 (4.3051) lr 2.9289e-04 eta 0:15:16
+epoch [17/20] batch [400/1600] time 0.153 (0.150) data 0.000 (0.001) loss 11.0170 (6.7301) cls_loss 4.0162 (0.7773) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.2302 (0.1216) contrast_loss 4.4826 (4.3028) lr 2.9289e-04 eta 0:15:01
+epoch [17/20] batch [500/1600] time 0.148 (0.150) data 0.000 (0.001) loss 6.8419 (6.7094) cls_loss 0.6475 (0.7616) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1620 (0.1211) contrast_loss 4.2214 (4.3020) lr 2.9289e-04 eta 0:14:45
+epoch [17/20] batch [600/1600] time 0.151 (0.150) data 0.000 (0.001) loss 5.9922 (6.6799) cls_loss 0.3728 (0.7433) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.0827 (0.1197) contrast_loss 4.2810 (4.3019) lr 2.9289e-04 eta 0:14:30
+epoch [17/20] batch [700/1600] time 0.153 (0.150) data 0.000 (0.001) loss 6.6300 (6.6596) cls_loss 0.6426 (0.7307) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1304 (0.1189) contrast_loss 4.2670 (4.3003) lr 2.9289e-04 eta 0:14:16
+epoch [17/20] batch [800/1600] time 0.147 (0.150) data 0.000 (0.001) loss 5.4647 (6.6647) cls_loss 0.0228 (0.7374) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.0556 (0.1188) contrast_loss 4.3200 (4.3003) lr 2.9289e-04 eta 0:14:01
+epoch [17/20] batch [900/1600] time 0.154 (0.150) data 0.000 (0.001) loss 6.0002 (6.6578) cls_loss 0.0477 (0.7353) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1246 (0.1180) contrast_loss 4.2788 (4.3012) lr 2.9289e-04 eta 0:13:45
+epoch [17/20] batch [1000/1600] time 0.164 (0.150) data 0.000 (0.001) loss 5.3990 (6.6546) cls_loss 0.0256 (0.7321) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.0520 (0.1179) contrast_loss 4.2806 (4.3020) lr 2.9289e-04 eta 0:13:30
+epoch [17/20] batch [1100/1600] time 0.150 (0.150) data 0.000 (0.001) loss 6.0589 (6.6272) cls_loss 0.1285 (0.7098) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1259 (0.1175) contrast_loss 4.2460 (4.3001) lr 2.9289e-04 eta 0:13:15
+epoch [17/20] batch [1200/1600] time 0.152 (0.150) data 0.000 (0.001) loss 13.5289 (6.6163) cls_loss 6.8718 (0.7013) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1754 (0.1174) contrast_loss 4.5769 (4.2993) lr 2.9289e-04 eta 0:13:00
+epoch [17/20] batch [1300/1600] time 0.157 (0.150) data 0.000 (0.001) loss 6.0034 (6.5910) cls_loss 0.1651 (0.6824) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1100 (0.1167) contrast_loss 4.2814 (4.2984) lr 2.9289e-04 eta 0:12:44
+epoch [17/20] batch [1400/1600] time 0.151 (0.150) data 0.000 (0.001) loss 6.5582 (6.5757) cls_loss 0.4673 (0.6705) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1493 (0.1164) contrast_loss 4.2191 (4.2972) lr 2.9289e-04 eta 0:12:30
+epoch [17/20] batch [1500/1600] time 0.145 (0.150) data 0.000 (0.001) loss 6.2558 (6.5543) cls_loss 0.3184 (0.6555) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1194 (0.1157) contrast_loss 4.3052 (4.2961) lr 2.9289e-04 eta 0:12:15
+epoch [17/20] batch [1600/1600] time 0.152 (0.150) data 0.000 (0.001) loss 6.4266 (6.5431) cls_loss 0.3157 (0.6465) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1470 (0.1156) contrast_loss 4.2581 (4.2951) lr 1.9098e-04 eta 0:11:59
+epoch [18/20] batch [100/1600] time 0.145 (0.155) data 0.000 (0.004) loss 5.6283 (6.2696) cls_loss 0.1033 (0.4196) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.0673 (0.1112) contrast_loss 4.3097 (4.2832) lr 1.9098e-04 eta 0:12:06
+epoch [18/20] batch [200/1600] time 0.152 (0.152) data 0.000 (0.002) loss 6.1426 (6.3345) cls_loss 0.2889 (0.4897) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1177 (0.1102) contrast_loss 4.2356 (4.2865) lr 1.9098e-04 eta 0:11:41
+epoch [18/20] batch [300/1600] time 0.152 (0.152) data 0.000 (0.002) loss 6.2581 (6.4147) cls_loss 0.7207 (0.5447) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.0790 (0.1130) contrast_loss 4.2288 (4.2891) lr 1.9098e-04 eta 0:11:22
+epoch [18/20] batch [400/1600] time 0.149 (0.151) data 0.000 (0.001) loss 6.6156 (6.4537) cls_loss 0.5500 (0.5792) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1370 (0.1132) contrast_loss 4.2924 (4.2917) lr 1.9098e-04 eta 0:11:05
+epoch [18/20] batch [500/1600] time 0.151 (0.151) data 0.000 (0.001) loss 6.3830 (6.4556) cls_loss 0.5167 (0.5840) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1143 (0.1129) contrast_loss 4.2746 (4.2911) lr 1.9098e-04 eta 0:10:49
+epoch [18/20] batch [600/1600] time 0.147 (0.151) data 0.000 (0.001) loss 12.4771 (6.4348) cls_loss 5.9020 (0.5741) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1650 (0.1117) contrast_loss 4.5783 (4.2903) lr 1.9098e-04 eta 0:10:33
+epoch [18/20] batch [700/1600] time 0.143 (0.151) data 0.000 (0.001) loss 6.0171 (6.4256) cls_loss 0.0045 (0.5665) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1406 (0.1117) contrast_loss 4.2105 (4.2886) lr 1.9098e-04 eta 0:10:17
+epoch [18/20] batch [800/1600] time 0.151 (0.151) data 0.000 (0.001) loss 6.9002 (6.4379) cls_loss 0.0336 (0.5742) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.2552 (0.1123) contrast_loss 4.1482 (4.2885) lr 1.9098e-04 eta 0:10:02
+epoch [18/20] batch [900/1600] time 0.162 (0.151) data 0.000 (0.001) loss 5.9148 (6.4247) cls_loss 0.2601 (0.5685) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.0776 (0.1112) contrast_loss 4.3566 (4.2896) lr 1.9098e-04 eta 0:09:47
+epoch [18/20] batch [1000/1600] time 0.150 (0.151) data 0.000 (0.001) loss 6.1039 (6.3944) cls_loss 0.3440 (0.5425) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1035 (0.1108) contrast_loss 4.2551 (4.2885) lr 1.9098e-04 eta 0:09:32
+epoch [18/20] batch [1100/1600] time 0.148 (0.151) data 0.000 (0.001) loss 8.1987 (6.4233) cls_loss 1.9023 (0.5656) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1463 (0.1113) contrast_loss 4.4489 (4.2903) lr 1.9098e-04 eta 0:09:17
+epoch [18/20] batch [1200/1600] time 0.145 (0.150) data 0.000 (0.001) loss 6.2394 (6.4092) cls_loss 0.3050 (0.5557) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1213 (0.1108) contrast_loss 4.2872 (4.2899) lr 1.9098e-04 eta 0:09:01
+epoch [18/20] batch [1300/1600] time 0.140 (0.150) data 0.000 (0.001) loss 5.8696 (6.4048) cls_loss 0.2187 (0.5535) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.0884 (0.1106) contrast_loss 4.2663 (4.2897) lr 1.9098e-04 eta 0:08:46
+epoch [18/20] batch [1400/1600] time 0.155 (0.150) data 0.000 (0.001) loss 5.7701 (6.3855) cls_loss 0.2559 (0.5365) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.0695 (0.1104) contrast_loss 4.2810 (4.2889) lr 1.9098e-04 eta 0:08:31
+epoch [18/20] batch [1500/1600] time 0.142 (0.150) data 0.000 (0.001) loss 6.3676 (6.3844) cls_loss 0.0783 (0.5344) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1889 (0.1105) contrast_loss 4.1009 (4.2887) lr 1.9098e-04 eta 0:08:15
+epoch [18/20] batch [1600/1600] time 0.154 (0.150) data 0.000 (0.001) loss 5.3923 (6.3917) cls_loss 0.0250 (0.5407) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.0524 (0.1107) contrast_loss 4.2715 (4.2887) lr 1.0899e-04 eta 0:08:00
+epoch [19/20] batch [100/1600] time 0.149 (0.155) data 0.000 (0.005) loss 5.9072 (6.2232) cls_loss 0.0297 (0.4023) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1258 (0.1073) contrast_loss 4.1937 (4.2855) lr 1.0899e-04 eta 0:07:59
+epoch [19/20] batch [200/1600] time 0.153 (0.152) data 0.000 (0.002) loss 6.1204 (6.2237) cls_loss 0.1552 (0.4055) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1265 (0.1071) contrast_loss 4.2763 (4.2845) lr 1.0899e-04 eta 0:07:35
+epoch [19/20] batch [300/1600] time 0.148 (0.151) data 0.000 (0.002) loss 6.1418 (6.3629) cls_loss 0.4165 (0.5161) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.0962 (0.1101) contrast_loss 4.2785 (4.2893) lr 1.0899e-04 eta 0:07:19
+epoch [19/20] batch [400/1600] time 0.155 (0.151) data 0.000 (0.001) loss 5.5145 (6.3701) cls_loss 0.0615 (0.5346) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.0519 (0.1087) contrast_loss 4.3612 (4.2886) lr 1.0899e-04 eta 0:07:02
+epoch [19/20] batch [500/1600] time 0.147 (0.151) data 0.000 (0.001) loss 5.7183 (6.3430) cls_loss 0.0498 (0.5201) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.0976 (0.1072) contrast_loss 4.2111 (4.2882) lr 1.0899e-04 eta 0:06:47
+epoch [19/20] batch [600/1600] time 0.142 (0.150) data 0.000 (0.001) loss 6.2996 (6.3334) cls_loss 0.3453 (0.5132) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1197 (0.1069) contrast_loss 4.3199 (4.2879) lr 1.0899e-04 eta 0:06:31
+epoch [19/20] batch [700/1600] time 0.150 (0.150) data 0.000 (0.001) loss 9.6059 (6.3415) cls_loss 3.1540 (0.5131) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1700 (0.1081) contrast_loss 4.4148 (4.2867) lr 1.0899e-04 eta 0:06:16
+epoch [19/20] batch [800/1600] time 0.147 (0.150) data 0.000 (0.001) loss 5.9823 (6.3438) cls_loss 0.2128 (0.5086) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1103 (0.1090) contrast_loss 4.2103 (4.2861) lr 1.0899e-04 eta 0:06:01
+epoch [19/20] batch [900/1600] time 0.145 (0.150) data 0.000 (0.001) loss 5.4355 (6.3365) cls_loss 0.0289 (0.4987) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.0636 (0.1094) contrast_loss 4.2212 (4.2855) lr 1.0899e-04 eta 0:05:45
+epoch [19/20] batch [1000/1600] time 0.147 (0.150) data 0.000 (0.001) loss 5.3887 (6.3301) cls_loss 0.0335 (0.4928) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.0518 (0.1095) contrast_loss 4.2635 (4.2842) lr 1.0899e-04 eta 0:05:30
+epoch [19/20] batch [1100/1600] time 0.147 (0.150) data 0.000 (0.001) loss 5.9929 (6.3042) cls_loss 0.1104 (0.4771) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1082 (0.1083) contrast_loss 4.3397 (4.2839) lr 1.0899e-04 eta 0:05:15
+epoch [19/20] batch [1200/1600] time 0.144 (0.150) data 0.000 (0.001) loss 7.1600 (6.2963) cls_loss 1.1750 (0.4693) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1257 (0.1084) contrast_loss 4.3028 (4.2831) lr 1.0899e-04 eta 0:05:00
+epoch [19/20] batch [1300/1600] time 0.102 (0.150) data 0.000 (0.001) loss 5.7365 (6.2884) cls_loss 0.0545 (0.4645) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.0988 (0.1079) contrast_loss 4.2145 (4.2833) lr 1.0899e-04 eta 0:04:44
+epoch [19/20] batch [1400/1600] time 0.156 (0.149) data 0.000 (0.001) loss 6.7496 (6.3078) cls_loss 0.6850 (0.4828) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1261 (0.1080) contrast_loss 4.3786 (4.2838) lr 1.0899e-04 eta 0:04:28
+epoch [19/20] batch [1500/1600] time 0.140 (0.149) data 0.000 (0.001) loss 6.5552 (6.2989) cls_loss 0.4946 (0.4764) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1277 (0.1078) contrast_loss 4.3621 (4.2833) lr 1.0899e-04 eta 0:04:12
+epoch [19/20] batch [1600/1600] time 0.136 (0.148) data 0.000 (0.001) loss 6.0336 (6.3128) cls_loss 0.2870 (0.4871) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.0951 (0.1081) contrast_loss 4.3090 (4.2838) lr 4.8943e-05 eta 0:03:57
+epoch [20/20] batch [100/1600] time 0.155 (0.150) data 0.000 (0.005) loss 7.8987 (6.3026) cls_loss 1.4906 (0.4710) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1670 (0.1089) contrast_loss 4.3951 (4.2832) lr 4.8943e-05 eta 0:03:45
+epoch [20/20] batch [200/1600] time 0.140 (0.147) data 0.000 (0.003) loss 6.5518 (6.2584) cls_loss 0.2024 (0.4393) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1999 (0.1077) contrast_loss 4.0733 (4.2809) lr 4.8943e-05 eta 0:03:26
+epoch [20/20] batch [300/1600] time 0.143 (0.147) data 0.000 (0.002) loss 5.4678 (6.2659) cls_loss 0.1957 (0.4468) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.0449 (0.1078) contrast_loss 4.2358 (4.2801) lr 4.8943e-05 eta 0:03:10
+epoch [20/20] batch [400/1600] time 0.149 (0.146) data 0.000 (0.002) loss 6.2549 (6.2349) cls_loss 0.0188 (0.4235) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1696 (0.1070) contrast_loss 4.2023 (4.2786) lr 4.8943e-05 eta 0:02:55
+epoch [20/20] batch [500/1600] time 0.153 (0.146) data 0.000 (0.001) loss 5.9980 (6.2471) cls_loss 0.5527 (0.4376) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.0583 (0.1066) contrast_loss 4.3019 (4.2797) lr 4.8943e-05 eta 0:02:40
+epoch [20/20] batch [600/1600] time 0.144 (0.146) data 0.000 (0.001) loss 6.1723 (6.2373) cls_loss 0.4067 (0.4270) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1074 (0.1067) contrast_loss 4.2290 (4.2797) lr 4.8943e-05 eta 0:02:25
+epoch [20/20] batch [700/1600] time 0.143 (0.146) data 0.000 (0.001) loss 5.4625 (6.2455) cls_loss 0.1243 (0.4314) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.0509 (0.1071) contrast_loss 4.2545 (4.2800) lr 4.8943e-05 eta 0:02:11
+epoch [20/20] batch [800/1600] time 0.154 (0.146) data 0.000 (0.001) loss 5.4625 (6.2515) cls_loss 0.1716 (0.4357) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.0463 (0.1073) contrast_loss 4.2433 (4.2808) lr 4.8943e-05 eta 0:01:56
+epoch [20/20] batch [900/1600] time 0.140 (0.146) data 0.000 (0.001) loss 5.5920 (6.2564) cls_loss 0.1133 (0.4374) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.0639 (0.1077) contrast_loss 4.2905 (4.2804) lr 4.8943e-05 eta 0:01:41
+epoch [20/20] batch [1000/1600] time 0.156 (0.145) data 0.000 (0.001) loss 5.8218 (6.2587) cls_loss 0.0157 (0.4441) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1090 (0.1071) contrast_loss 4.2571 (4.2806) lr 4.8943e-05 eta 0:01:27
+epoch [20/20] batch [1100/1600] time 0.138 (0.145) data 0.000 (0.001) loss 7.1062 (6.2485) cls_loss 1.3159 (0.4381) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.0958 (0.1066) contrast_loss 4.3472 (4.2804) lr 4.8943e-05 eta 0:01:12
+epoch [20/20] batch [1200/1600] time 0.143 (0.145) data 0.000 (0.001) loss 5.5323 (6.2571) cls_loss 0.0670 (0.4437) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.0611 (0.1069) contrast_loss 4.2995 (4.2810) lr 4.8943e-05 eta 0:00:58
+epoch [20/20] batch [1300/1600] time 0.146 (0.145) data 0.000 (0.001) loss 5.8291 (6.2450) cls_loss 0.0946 (0.4339) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1072 (0.1067) contrast_loss 4.2003 (4.2808) lr 4.8943e-05 eta 0:00:43
+epoch [20/20] batch [1400/1600] time 0.143 (0.145) data 0.000 (0.001) loss 5.6224 (6.2373) cls_loss 0.0364 (0.4300) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.0787 (0.1062) contrast_loss 4.2798 (4.2806) lr 4.8943e-05 eta 0:00:29
+epoch [20/20] batch [1500/1600] time 0.142 (0.145) data 0.000 (0.001) loss 6.0689 (6.2221) cls_loss 0.2855 (0.4199) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1098 (0.1056) contrast_loss 4.2283 (4.2804) lr 4.8943e-05 eta 0:00:14
+epoch [20/20] batch [1600/1600] time 0.142 (0.145) data 0.000 (0.001) loss 8.5221 (6.2095) cls_loss 2.2037 (0.4082) prompt_loss 0.6770 (0.6770) kgcoop_loss 0.1670 (0.1056) contrast_loss 4.3057 (4.2792) lr 1.2312e-05 eta 0:00:00
+Checkpoint saved to /caltech101/vit_b16_cepl_16shots/seed2/efficient_prompt/model.pth.tar-20
+Finish training
+Deploy the last-epoch model
+Evaluate on the *test* set
+=> result
+* total: 2,465
+* correct: 2,387
+* accuracy: 96.836%
+* error: 3.164%
+* macro_f1: 95.245%
+Elapsed: 1:41:05
