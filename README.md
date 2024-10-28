@@ -12,7 +12,7 @@
 We present Computationally Efficient Prompt Learning (CEPL), a novel approach that not only achieves remarkable improvements in performance across various tasks but also significantly reduces computational costs.  This dual focus on efficiency and effectiveness makes CEPL a compelling solution for adapting large vision-language models to diverse downstream applications.
 
 <div style="text-align: center;">
-    <img src="imgs/CDvsAcc.jpg" alt="intro" width="450" />
+    <img src="imgs/CDvsAcc.jpg" alt="intro" width="700" />
 </div>
 
 <!-- ![intro](imgs/CDvsAcc.jpg) -->
